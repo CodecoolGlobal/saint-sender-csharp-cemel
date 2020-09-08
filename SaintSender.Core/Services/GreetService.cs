@@ -17,7 +17,7 @@ namespace SaintSender.Core.Services
 {
     public class GreetService
     {
-        public void Greet(string name)
+        public IList<String> Greet(string name)
         {
         // return $"Welcome {name}, my friend!";
 
@@ -49,24 +49,22 @@ namespace SaintSender.Core.Services
             });
 
             // Define parameters of request.
-            UsersResource.LabelsResource.ListRequest request = service.Users.Labels.List("me");
+            //UsersResource.LabelsResource.ListRequest request = service.Users.Labels.List("me");
+            UsersResource.MessagesResource.ListRequest request1 = service.Users.Messages.List("me");
 
-            // List labels.
-            IList<Label> labels = request.Execute().Labels;
-            Console.WriteLine("Labels:");
-            if (labels != null && labels.Count > 0)
+            //get our emails   
+
+            IList<Message> messages = request1.Execute().Messages;
+            IList<String> snippets = new List<String>();
+            foreach (var mail in messages)
             {
-                foreach (var labelItem in labels)
-                {
-                    Console.WriteLine("{0}", labelItem.Name);
-                }
+                var mailId = mail.Id;
+                var threadId = mail.ThreadId;
+
+                Message message = service.Users.Messages.Get("me", mailId).Execute();
+                snippets.Add(message.Snippet);
             }
-            else
-            {
-                Console.WriteLine("No labels found.");
-            }
-            Console.Read();
-            
+            return snippets;           
         }
     }
 }
