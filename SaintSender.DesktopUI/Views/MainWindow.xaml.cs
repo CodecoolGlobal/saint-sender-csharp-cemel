@@ -12,7 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using OpenPop.Mime;
 using SaintSender.Core.Services;
+using SaintSender.DesktopUI.ViewModels;
 
 namespace SaintSender.DesktopUI
 {
@@ -21,16 +23,19 @@ namespace SaintSender.DesktopUI
     /// </summary>
     public partial class MainWindow : Window
     {
+        private MainViewModel _vm;
         public MainWindow()
         {
             InitializeComponent();
+            _vm = new MainViewModel();
+            DataContext = _vm;
         }
 
         private void GreetBtn_Click(object sender, RoutedEventArgs e)
         {
-            var service = new DataHandler();
-            var emailListResponse = service.getMessageBody();
-            ResultTxt.Text = emailListResponse[0];
+            //var service = new DataHandler();
+            //var emailListResponse = service.getMessageBody();
+            List<Message>l = _vm.getEmails();
         }
     }
 }

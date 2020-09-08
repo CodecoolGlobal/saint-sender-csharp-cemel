@@ -55,10 +55,6 @@ namespace SaintSender.Core.Services
 
             return service;
         }
-
-
-
-       
     }
 
 
