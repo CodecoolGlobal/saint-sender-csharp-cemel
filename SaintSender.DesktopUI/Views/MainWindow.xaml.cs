@@ -28,9 +28,8 @@ namespace SaintSender.DesktopUI
 
         private void GreetBtn_Click(object sender, RoutedEventArgs e)
         {
-            var service = new GreetService();
-            var name = NameTxt.Text;
-            var emailListResponse = service.Greet(name);
+            var service = new DataHandler();
+            var emailListResponse = service.getMessageBody();
             ResultTxt.Text = emailListResponse[0];
         }
     }

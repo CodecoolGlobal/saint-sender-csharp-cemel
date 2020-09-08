@@ -15,17 +15,17 @@ using System.Threading.Tasks;
 
 namespace SaintSender.Core.Services
 {
-    public class GreetService
+    public class Setup 
     {
-        public IList<String> Greet(string name)
+
+        private static string ApplicationName = "Gmail API .NET Quickstart";
+
+
+
+        public static UserCredential SetCredentials()
         {
-        // return $"Welcome {name}, my friend!";
-
-        string[] Scopes = { GmailService.Scope.GmailReadonly };
-        string ApplicationName = "Gmail API .NET Quickstart";
-
             UserCredential credential;
-
+            string[] Scopes = { GmailService.Scope.GmailReadonly };
             using (var stream =
                 new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
             {
@@ -40,31 +40,26 @@ namespace SaintSender.Core.Services
                     new FileDataStore(credPath, true)).Result;
                 Console.WriteLine("Credential file saved to: " + credPath);
             }
+            return credential;
 
+        }
+
+        public static GmailService Init()
+        {
             // Create Gmail API service.
             var service = new GmailService(new BaseClientService.Initializer()
             {
-                HttpClientInitializer = credential,
+                HttpClientInitializer = SetCredentials(),
                 ApplicationName = ApplicationName,
             });
 
-            // Define parameters of request.
-            //UsersResource.LabelsResource.ListRequest request = service.Users.Labels.List("me");
-            UsersResource.MessagesResource.ListRequest request1 = service.Users.Messages.List("me");
-
-            //get our emails   
-
-            IList<Message> messages = request1.Execute().Messages;
-            IList<String> snippets = new List<String>();
-            foreach (var mail in messages)
-            {
-                var mailId = mail.Id;
-                var threadId = mail.ThreadId;
-
-                Message message = service.Users.Messages.Get("me", mailId).Execute();
-                snippets.Add(message.Snippet);
-            }
-            return snippets;           
+            return service;
         }
+
+
+
+       
     }
+
+
 }
