@@ -30,8 +30,9 @@ namespace SaintSender.DesktopUI
         {
             var service = new GreetService();
             var name = NameTxt.Text;
-            var greeting = service.Greet(name);
-            ResultTxt.Text = greeting;
+            //var greeting = service.Greet(name);
+            service.Greet(name);
+            //ResultTxt.Text = greeting;
         }
     }
 }
