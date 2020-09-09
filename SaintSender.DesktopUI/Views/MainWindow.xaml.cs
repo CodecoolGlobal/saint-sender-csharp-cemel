@@ -36,8 +36,18 @@ namespace SaintSender.DesktopUI
             //var service = new DataHandler();
             //var emailListResponse = service.getMessageBody();
             //List<Message>l = _vm.getEmails();
-            _vm.setupEmails();
+            _vm.SetupEmails();
+            var messageBodies = _vm.GetMessageBodies();
+            ShowMessageBodies(messageBodies);
             _vm.BuildUpEmailsToShow();
+        }
+
+        private void ShowMessageBodies(List<string> messageBodies)
+        {
+            foreach (var messageBody in messageBodies)
+            {
+                MessageBox.Show(messageBody);
+            }
         }
     }
 }
