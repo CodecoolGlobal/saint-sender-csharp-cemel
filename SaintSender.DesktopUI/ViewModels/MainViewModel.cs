@@ -1,6 +1,7 @@
 ﻿using OpenPop.Mime;
 using OpenPop.Pop3;
 using SaintSender.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -10,7 +11,7 @@ namespace SaintSender.DesktopUI.ViewModels
     class MainViewModel
     {
         private List<Message> receivedEMails;
-        private ObservableCollection<Email> emailToSHow;
+        private ObservableCollection<Email> emailToSHow = new ObservableCollection<Email>();
 
         public List<Message> getEmails()
         {
@@ -33,9 +34,9 @@ namespace SaintSender.DesktopUI.ViewModels
             receivedEMails = getEmails();
         }
 
-
         public void BuildUpEmailsToShow()
         {
+
             foreach(Message message in receivedEMails)
             {
                 string body;
@@ -48,7 +49,14 @@ namespace SaintSender.DesktopUI.ViewModels
                 {
                     body = messagePart.GetBodyAsText();
                 }
+                
+
+
+
+                emailToSHow.Add(new Email(message.Headers.ReturnPath.Address, message.Headers.Date, message.Headers.Subject, body));
+
             }
+
         }
 
 

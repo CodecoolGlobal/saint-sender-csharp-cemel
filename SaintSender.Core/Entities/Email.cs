@@ -8,17 +8,28 @@ namespace SaintSender.Core.Entities
 {
     public class Email
     {
-        public String Sender
+        public Email(string sender, string date, string subject, string body)
+        {
+            Sender = sender;
+            Date = date;
+            Subject = subject;
+            Body = body;
+            //ID = id;
+        }
+
+
+
+        public string Sender
         {
             get;
             set;
         }
 
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
 
-        public String Subject { get; set; }
+        public string Subject { get; set; }
 
-        public String Body { get; set; }
+        public string Body { get; set; }
 
         public int ID { get; set; }
     }
