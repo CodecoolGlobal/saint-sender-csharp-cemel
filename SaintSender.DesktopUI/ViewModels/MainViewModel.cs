@@ -1,14 +1,8 @@
-﻿using System;
+﻿using OpenPop.Mime;
+using OpenPop.Pop3;
+using SaintSender.Core.Entities;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net.Mail;
-using System.Net.NetworkInformation;
-using SaintSender.Core.Entities;
-using OpenPop.Mime;
-using OpenPop.Pop3;
 
 
 namespace SaintSender.DesktopUI.ViewModels
@@ -25,16 +19,39 @@ namespace SaintSender.DesktopUI.ViewModels
             client.Connect("pop.gmail.com", 995, true);
             client.Authenticate("csharptw5@gmail.com", "Csharp123", AuthenticationMethod.UsernameAndPassword);
             int messageCount = client.GetMessageCount();
-            var e = client.GetMessage[0];
+            
 
-            for(int i = messageCount;i < 0; i--)
+            for(int i = 1;i < messageCount; i++)
             {
                 finalMessages.Add(client.GetMessage(i));
             }
-            return finalMessages;   
+             return finalMessages;   
         }
 
- 
+        public void setupEmails()
+        {
+            receivedEMails = getEmails();
+        }
 
+
+        public void BuildUpEmailsToShow()
+        {
+            foreach(Message message in receivedEMails)
+            {
+                string body;
+                MessagePart messagePart = message.FindFirstPlainTextVersion();
+                if (!message.MessagePart.IsMultiPart)
+                {
+                    body = message.MessagePart.GetBodyAsText();
+                }
+                else
+                {
+                    body = messagePart.GetBodyAsText();
+                }
+            }
+        }
+
+
+        
     }
 }

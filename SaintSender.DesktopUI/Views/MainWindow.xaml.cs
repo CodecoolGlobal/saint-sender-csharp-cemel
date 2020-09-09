@@ -35,7 +35,9 @@ namespace SaintSender.DesktopUI
         {
             //var service = new DataHandler();
             //var emailListResponse = service.getMessageBody();
-            List<Message>l = _vm.getEmails();
+            //List<Message>l = _vm.getEmails();
+            _vm.setupEmails();
+            _vm.BuildUpEmailsToShow();
         }
     }
 }
