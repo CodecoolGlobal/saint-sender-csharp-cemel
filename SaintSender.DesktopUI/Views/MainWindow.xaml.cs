@@ -28,7 +28,7 @@ namespace SaintSender.DesktopUI
         {
             InitializeComponent();
             _vm = new MainViewModel();
-            DataContext = _vm;
+            DataContext = _vm.getEmails();
         }
 
         private void GreetBtn_Click(object sender, RoutedEventArgs e)
@@ -36,6 +36,12 @@ namespace SaintSender.DesktopUI
             //var service = new DataHandler();
             //var emailListResponse = service.getMessageBody();
             //List<Message>l = _vm.getEmails();
+            _vm.setupEmails();
+            _vm.BuildUpEmailsToShow();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
             _vm.setupEmails();
             _vm.BuildUpEmailsToShow();
         }

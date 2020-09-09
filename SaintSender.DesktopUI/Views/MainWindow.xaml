@@ -5,11 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SaintSender.DesktopUI"
         mc:Ignorable="d"
-        Title="SainSender" Height="450" Width="800">
-    <Grid>
-        <TextBox Name="NameTxt" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
-        <Button Name="GreetBtn" Content="Greet" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="140,13,0,0" Click="GreetBtn_Click"/>
-        <TextBlock Name="ResultTxt" HorizontalAlignment="Left" Margin="10,45,0,0" FontSize="28" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
-        
-    </Grid>
+        Title="SainSender" Height="450" Width="800" Loaded="Window_Loaded">
+
+    <ListView ItemsSource="{Binding Path=receivedEMails}">
+        <ListView.ItemContainerStyle>
+        <Style TargetType="{x:Type ListViewItem}">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            </Style>
+        </ListView.ItemContainerStyle>
+        <ListView.View>
+            <GridView>
+                <GridViewColumn Header="Sender" DisplayMemberBinding="{Binding Path=Sender}"  />
+                <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Path=Subject}" />
+                <GridViewColumn Header="Preview" DisplayMemberBinding="{Binding Path=Body}" />
+            </GridView>
+        </ListView.View>
+        <!--<Button Content="Button" Height="100" Width="75"/>-->
+    </ListView>
+
 </Window>
