@@ -1,25 +1,50 @@
-﻿
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Gmail.v1;
-using Google.Apis.Gmail.v1.Data;
-using Google.Apis.Services;
-using Google.Apis.Util.Store;
+﻿using OpenPop.Mime;
+using OpenPop.Pop3;
+using Renci.SshNet;
+using SaintSender.Core.Entities;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Net.Configuration;
+using System.Net;
+using System.Net.Mail;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
+
 
 namespace SaintSender.Core.Services
 {
     public class Sender
     {
 
-        static string[] Scopes = { GmailService.Scope.GmailSend };
+        private List<Message> receivedEmails;
+        public ObservableCollection<Email> emailToShow = new ObservableCollection<Email>();
+
+        public static void Email(string from, string password, string to, string subject, string body)
+        {
+            try
+            {
+                MailMessage message = new MailMessage();
+                SmtpClient smtp = new SmtpClient();
+                message.From = new MailAddress(from);
+                message.To.Add(new MailAddress(to));
+                message.Subject = subject;
+                message.IsBodyHtml = false; //to make message body as html  
+                message.Body = body;
+                smtp.Port = 587;
+                smtp.Host = "smtp.gmail.com"; //for gmail host  
+                smtp.EnableSsl = true;
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new NetworkCredential(from, password);
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtp.Send(message);
+            }
+            catch (Exception) { }
+        }
+
+        /*static string[] Scopes = { GmailService.Scope.GmailSend };
         static string ApplicationName = "Gmail API .NET Quickstart";
 
         public static void SendEmail(string to, string subject, string EamilMessage)
@@ -53,6 +78,8 @@ namespace SaintSender.Core.Services
         {
             var data = Encoding.UTF8.GetBytes(input);
             return Convert.ToBase64String(data).Replace("+", "-").Replace("/", "_").Replace("=", "");
-        }
+        }*/
+
+
     }
 }
