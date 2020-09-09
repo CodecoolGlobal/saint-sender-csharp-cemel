@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using OpenPop.Mime;
+using SaintSender.Core.Entities;
 using SaintSender.Core.Services;
 using SaintSender.DesktopUI.ViewModels;
 
@@ -23,12 +25,15 @@ namespace SaintSender.DesktopUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private MainViewModel _vm;
+        private MainViewModel _vm = new MainViewModel();
+        private ObservableCollection<Email> emailToSHow;
+
         public MainWindow()
         {
             InitializeComponent();
-            _vm = new MainViewModel();
-            DataContext = _vm;
+            _vm.SetupEmails();
+            emailToSHow = _vm.BuildUpEmailsToShow();
+            DataContext = this;
         }
 
         private void GreetBtn_Click(object sender, RoutedEventArgs e)
@@ -38,16 +43,22 @@ namespace SaintSender.DesktopUI
             //List<Message>l = _vm.getEmails();
             _vm.SetupEmails();
             var messageBodies = _vm.GetMessageBodies();
-            ShowMessageBodies(messageBodies);
+            //ShowMessageBodies(messageBodies);
             _vm.BuildUpEmailsToShow();
         }
 
-        private void ShowMessageBodies(List<string> messageBodies)
+        //private void ShowMessageBodies(List<string> messageBodies)
+        //{
+        //    foreach (var messageBody in messageBodies)
+        //    {
+        //        MessageBox.Show(messageBody);
+        //    }
+        //}
+
+        public ObservableCollection<Email> EmailsToDisplay
         {
-            foreach (var messageBody in messageBodies)
-            {
-                MessageBox.Show(messageBody);
-            }
+            get { return emailToSHow; }
         }
+
     }
 }

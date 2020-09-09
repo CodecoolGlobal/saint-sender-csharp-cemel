@@ -64,7 +64,7 @@ namespace SaintSender.DesktopUI.ViewModels
             return messageBodies;
         }
 
-        public void BuildUpEmailsToShow()
+        public ObservableCollection<Email> BuildUpEmailsToShow()
         {
             foreach (Message message in receivedEmails)
             {
@@ -93,6 +93,8 @@ namespace SaintSender.DesktopUI.ViewModels
                     }
                 }
             }
+            return emailToShow;
+
         }
     }
 }
