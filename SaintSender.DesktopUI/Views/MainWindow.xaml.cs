@@ -1,28 +1,16 @@
-﻿using System;
+﻿using SaintSender.Core.Entities;
+using SaintSender.DesktopUI.ViewModels;
+using SaintSender.DesktopUI.Views;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
+using System.Collections.Specialized;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
-using OpenPop.Mime;
-using SaintSender.Core.Entities;
-using SaintSender.Core.Services;
-using SaintSender.DesktopUI.ViewModels;
-using SaintSender.DesktopUI.Views;
 
 namespace SaintSender.DesktopUI
 {
@@ -32,27 +20,32 @@ namespace SaintSender.DesktopUI
     public partial class MainWindow : Window
     {
         private MainViewModel _vm = new MainViewModel();
-        private ObservableCollection<Email> emailToSHow;
-        private List<Email> allEmails;
-        private DispatcherTimer timer = new DispatcherTimer();
+        public ObservableCollection<Email> _emailsToDisplay;
+        private List<Email> _allEmails;
+        private DispatcherTimer _timer = new DispatcherTimer();
 
         public MainWindow()
         {
             InitializeComponent();
-            _vm.SetupEmails();
-            emailToSHow = _vm.BuildUpEmailsToShow();
-            allEmails = emailToSHow.ToList<Email>();
             DataContext = this;
-            //SaintSender.Core.Services.Sender.SendEmail("lilaalex95@gmail.com", "okeka", "neeeeeecsinald");
 
-            timer.Interval = new TimeSpan(0, 0, 5);
-            timer.Tick += Timer_Tick;
-            timer.Start();
+            _vm.GetEmails();
+            _emailsToDisplay = _vm.BuildUpEmailsToDisplay();
+            _allEmails = _emailsToDisplay.ToList<Email>();
+
+            SetTimer();
         }
 
         public ObservableCollection<Email> EmailsToDisplay
         {
-            get { return emailToSHow; }
+            get { return _emailsToDisplay; }
+        }
+
+        private void SetTimer()
+        {
+            _timer.Interval = new TimeSpan(0, 0, 5);
+            _timer.Tick += Timer_Tick;
+            _timer.Start();
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -63,11 +56,19 @@ namespace SaintSender.DesktopUI
             }
         }
 
-        private void RefreshEmailList()
+        private async void RefreshEmailList()
         {
-            _vm.SetupEmails();
-            emailToSHow = _vm.BuildUpEmailsToShow();
-            allEmails = emailToSHow.ToList<Email>();
+            await Task.Run(() => _vm.GetEmails());
+            if (txtSearch.Text == null || txtSearch.Text == "")
+            {
+                _emailsToDisplay.Clear();
+                foreach (var stuff in _vm.BuildUpEmailsToDisplay())
+                {
+                    _emailsToDisplay.Add(stuff);
+                }
+
+                _allEmails = _emailsToDisplay.ToList<Email>();
+            }
         }
 
         private void writeMail_Click(object sender, RoutedEventArgs e)
@@ -95,7 +96,7 @@ namespace SaintSender.DesktopUI
                 pattern = $".*{text.ToUpperInvariant()}.*";
             }
 
-            var query = from item in allEmails
+            var query = from item in _allEmails
                         where (Regex.IsMatch(item.Body.ToUpperInvariant(), pattern)
                             || Regex.IsMatch(item.Date.ToUpperInvariant(), pattern)
                             || Regex.IsMatch(item.Sender.ToUpperInvariant(), pattern)
@@ -103,11 +104,11 @@ namespace SaintSender.DesktopUI
                         select item;
 
             ObservableCollection<Email> bob = new ObservableCollection<Email>(query);
-            emailToSHow.Clear();
+            _emailsToDisplay.Clear();
 
             foreach (var item in bob)
             {
-                emailToSHow.Add(item);
+                _emailsToDisplay.Add(item);
             }
         }
     }
