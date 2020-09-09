@@ -5,8 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
-
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
 
 namespace SaintSender.DesktopUI.ViewModels
 {
@@ -94,7 +96,32 @@ namespace SaintSender.DesktopUI.ViewModels
                 }
             }
             return emailToShow;
+        }
+
+        public void BackUp(ObservableCollection<Email> emailList)
+        {
+            
+
+            string filePath = @"C:\Users\Alex\OneDrive\Desktop\3rd_TW\SaintSender.Core\StoredMail.txt";
+
+            FileStream fileStream = new FileStream(filePath, FileMode.Create);
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            try
+            {
+                formatter.Serialize(fileStream, emailList);
+            }
+            catch (SerializationException e)
+            {
+                Console.WriteLine("Failed to serialize. Reason: " + e.Message);
+                throw;
+            }
+            finally
+            {
+                fileStream.Close();
+            }
 
         }
+
     }
 }

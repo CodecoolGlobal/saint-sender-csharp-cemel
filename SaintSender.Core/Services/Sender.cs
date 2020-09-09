@@ -41,11 +41,9 @@ namespace SaintSender.Core.Services
             });
 
             UsersResource.LabelsResource.ListRequest request = service.Users.Labels.List("me");
-
             Message msg = new Message();
             string message = $"To: {to}\r\nSubject: {subject}\r\nContent-Type: text/html;charset=utf-8\r\n\r\n<h1>{EamilMessage}</h1>";
             msg.Raw = Base64UrlEncode(message.ToString());
-
             service.Users.Messages.Send(msg, "me").Execute();
         }
 
