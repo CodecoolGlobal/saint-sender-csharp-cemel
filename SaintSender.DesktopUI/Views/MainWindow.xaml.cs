@@ -17,6 +17,7 @@ using OpenPop.Mime;
 using SaintSender.Core.Entities;
 using SaintSender.Core.Services;
 using SaintSender.DesktopUI.ViewModels;
+using SaintSender.DesktopUI.Views;
 
 namespace SaintSender.DesktopUI
 {
@@ -34,7 +35,7 @@ namespace SaintSender.DesktopUI
             _vm.SetupEmails();
             emailToSHow = _vm.BuildUpEmailsToShow();
             DataContext = this;
-            SaintSender.Core.Services.Sender.SendEmail("lilaalex95@gmail.com", "okeka", "neeeeeecsinald");
+            //SaintSender.Core.Services.Sender.SendEmail("lilaalex95@gmail.com", "okeka", "neeeeeecsinald");
         }
 
         public ObservableCollection<Email> EmailsToDisplay
@@ -42,5 +43,10 @@ namespace SaintSender.DesktopUI
             get { return emailToSHow; }
         }
 
+        private void writeMail_Click(object sender, RoutedEventArgs e)
+        {
+            WriteMail wm = new WriteMail();
+            wm.Show();
+        }
     }
 }
