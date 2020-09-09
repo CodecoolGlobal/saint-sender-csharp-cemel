@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 
+
 namespace SaintSender.DesktopUI.ViewModels
 {
     class MainViewModel
@@ -21,6 +22,7 @@ namespace SaintSender.DesktopUI.ViewModels
             client.Authenticate("csharptw5@gmail.com", "Csharp123", AuthenticationMethod.UsernameAndPassword);
             int messageCount = client.GetMessageCount();
             
+
 
             for(int i = 1;i < messageCount; i++)
             {
@@ -39,23 +41,29 @@ namespace SaintSender.DesktopUI.ViewModels
 
             foreach(Message message in receivedEMails)
             {
-                string body;
-                MessagePart messagePart = message.FindFirstPlainTextVersion();
-                if (!message.MessagePart.IsMultiPart)
+                if(message.Headers.From.Address != "csharptw5@gmail.com")
                 {
-                    body = message.MessagePart.GetBodyAsText();
-                }
-                else
-                {
-                    body = messagePart.GetBodyAsText();
-                }
+
+                    string body;
+                    MessagePart messagePart = message.FindFirstPlainTextVersion();
+                    if (!message.MessagePart.IsMultiPart)
+                    {
+                        body = message.MessagePart.GetBodyAsText();
+                    }
+                    else
+                    {
+                        body = messagePart.GetBodyAsText();
+                    }
                 
-
-
-
-                emailToSHow.Add(new Email(message.Headers.ReturnPath.Address, message.Headers.Date, message.Headers.Subject, body));
-
+               
+                    emailToSHow.Add(new Email(message.Headers.ReturnPath.Address, message.Headers.Date, message.Headers.Subject, body));
+                }
             }
+
+        }
+
+        public void checkIfNewMailReceived()
+        {
 
         }
 
