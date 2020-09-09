@@ -34,26 +34,8 @@ namespace SaintSender.DesktopUI
             _vm.SetupEmails();
             emailToSHow = _vm.BuildUpEmailsToShow();
             DataContext = this;
+            SaintSender.Core.Services.Sender.SendEmail("lilaalex95@gmail.com", "okeka", "neeeeeecsinald");
         }
-
-        private void GreetBtn_Click(object sender, RoutedEventArgs e)
-        {
-            //var service = new DataHandler();
-            //var emailListResponse = service.getMessageBody();
-            //List<Message>l = _vm.getEmails();
-            _vm.SetupEmails();
-            var messageBodies = _vm.GetMessageBodies();
-            //ShowMessageBodies(messageBodies);
-            _vm.BuildUpEmailsToShow();
-        }
-
-        //private void ShowMessageBodies(List<string> messageBodies)
-        //{
-        //    foreach (var messageBody in messageBodies)
-        //    {
-        //        MessageBox.Show(messageBody);
-        //    }
-        //}
 
         public ObservableCollection<Email> EmailsToDisplay
         {

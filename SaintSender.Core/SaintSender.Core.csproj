@@ -70,6 +70,7 @@
     <Compile Include="Services\DataHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interfaces\IGreetService.cs" />
+    <Compile Include="Services\Sender.cs" />
     <Compile Include="Services\Setup.cs" />
   </ItemGroup>
   <ItemGroup>
