@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using SaintSender.Core.Services;
 
 namespace SaintSender.DesktopUI.Views
 {
@@ -22,6 +23,12 @@ namespace SaintSender.DesktopUI.Views
         public WriteMail()
         {
             InitializeComponent();
+        }
+
+        private void btnSend_Click(object sender, RoutedEventArgs e)
+        {
+            Sender.SendEmail(txtTo.Text, txtSubject.Text, txtMessage.Text);
+            this.Close();
         }
     }
 }
