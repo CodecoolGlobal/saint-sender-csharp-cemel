@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="SainSender" Height="450" Width="800" Loaded="Window_Loaded">
 
-    <ListView ItemsSource="{Binding Path=receivedEMails}">
+    <ListView ItemsSource="{Binding Path=EmailsToDisplay}">
         <ListView.ItemContainerStyle>
         <Style TargetType="{x:Type ListViewItem}">
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />

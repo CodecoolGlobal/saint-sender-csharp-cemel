@@ -11,7 +11,6 @@ namespace SaintSender.DesktopUI.ViewModels
     class MainViewModel
     {
         private List<Message> receivedEMails;
-        private ObservableCollection<Email> emailToSHow = new ObservableCollection<Email>();
 
         public List<Message> getEmails()
         {
@@ -34,9 +33,9 @@ namespace SaintSender.DesktopUI.ViewModels
             receivedEMails = getEmails();
         }
 
-        public void BuildUpEmailsToShow()
+        public ObservableCollection<Email> BuildUpEmailsToShow()
         {
-
+            ObservableCollection<Email> emailToSHow = new ObservableCollection<Email>();
             foreach(Message message in receivedEMails)
             {
                 string body;
@@ -52,14 +51,12 @@ namespace SaintSender.DesktopUI.ViewModels
                 
 
 
-
-                emailToSHow.Add(new Email(message.Headers.ReturnPath.Address, message.Headers.Date, message.Headers.Subject, body));
+                emailToSHow.Add(new Email("mindegy", message.Headers.Date, message.Headers.Subject, body));
+                //    emailToSHow.Add(new Email(message.Headers.ReturnPath.Address, message.Headers.Date, message.Headers.Subject, body));
 
             }
-
+            return emailToSHow;
         }
 
-
-        
     }
 }
