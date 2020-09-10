@@ -1,6 +1,5 @@
 ﻿using OpenPop.Mime;
 using OpenPop.Pop3;
-using Renci.SshNet;
 using SaintSender.Core.Entities;
 using System;
 using System.Collections.Generic;

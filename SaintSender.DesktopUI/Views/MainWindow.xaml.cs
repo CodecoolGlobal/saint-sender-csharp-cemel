@@ -34,7 +34,7 @@ namespace SaintSender.DesktopUI
             _vm.SetupEmails();
             emailToSHow = _vm.BuildUpEmailsToShow();
             DataContext = this;
-            SaintSender.Core.Services.Sender.SendEmail("lilaalex95@gmail.com", "okeka", "neeeeeecsinald");
+            //SaintSender.Core.Services.Sender.SendEmail("lilaalex95@gmail.com", "okeka", "neeeeeecsinald");
         }
 
         public ObservableCollection<Email> EmailsToDisplay
