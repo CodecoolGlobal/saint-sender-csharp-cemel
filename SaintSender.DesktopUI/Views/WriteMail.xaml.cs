@@ -29,11 +29,16 @@ namespace SaintSender.DesktopUI.Views
         {
             Sender.Email("csharptw5@gmail.com", "Csharp123", txtTo.Text, txtSubject.Text, txtMessage.Text);
             this.Close();
+            MessageBox.Show("Email successfully sent", "Email sent");
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to discard your message?", "Discard message", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+            if (result == MessageBoxResult.Yes)
+            {
+                this.Close();
+            }
         }
     }
 }

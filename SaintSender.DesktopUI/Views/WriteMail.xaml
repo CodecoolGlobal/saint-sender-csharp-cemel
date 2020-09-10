@@ -12,14 +12,14 @@
         <Label Content="_Subject:" Target="{Binding ElementName=txtSubject}" />
         <TextBox Name="txtSubject"/>
         <Label Content="_Message:" Target="{Binding ElementName=txtMessage}" />
-        <TextBox Name="txtMessage" Height="230" />
+        <TextBox Name="txtMessage" Height="220" />
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
-        <Button x:Name="btnSend" Click="btnSend_Click" Width="100" >Send</Button>
-        <Button x:Name="btnCancel" Width="100" Grid.Column="1" Click="btnCancel_Click">Cancel</Button>
+        <Button x:Name="btnSend" Click="btnSend_Click" Width="200" Margin="10" >Send</Button>
+        <Button x:Name="btnCancel" Width="200" Grid.Column="1" Click="btnCancel_Click" Margin="10">Cancel</Button>
         </Grid>
     </StackPanel>
 </Window>
