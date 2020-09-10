@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,28 +25,65 @@ namespace SaintSender.DesktopUI
         public ObservableCollection<Email> _emailsToDisplay;
         private List<Email> _allEmails;
         private DispatcherTimer _timer;
+        private DispatcherTimer _timer2;
 
         public MainWindow()
         {
             InitializeComponent();
+            MainViewModel.CheckForInterNetConnection();
             DataContext = this;
-            if (MainViewModel.CheckForInterNetConnection())
+            InternetSetter();
+
+        }
+
+
+        public void InternetSetter()
+        {
+            if (MainViewModel.InternetAvailable)
             {
                 _vm.GetEmails();
                 _emailsToDisplay = _vm.BuildUpEmailsToDisplay();
                 _allEmails = _emailsToDisplay.ToList<Email>();
                 SetTimer();
+                SetTimer2();
             }
             else
             {
                 _emailsToDisplay = _vm.ReadOutFromFiles();
-                if(_emailsToDisplay != null)
+                if (_emailsToDisplay != null)
                 {
                     _allEmails = _emailsToDisplay.ToList<Email>();
                 }
-                
             }
         }
+
+        public void Timer_Tick2(object sender, EventArgs e)
+        {   
+            if(MainViewModel.InternetAvailable == true)
+            {
+                InternetAvilableButton.Background = Brushes.Green;
+            }
+            else
+            {
+                InternetAvilableButton.Background = Brushes.Red;
+            }
+
+
+            if (!boolChangedChecker(MainViewModel.InternetAvailable))
+            {
+                InternetSetter();
+            }
+        }
+
+        private void SetTimer2()
+        {
+            _timer2 = new DispatcherTimer();
+            _timer2.Interval = new TimeSpan(0, 0, 1);
+            _timer2.Tick += Timer_Tick2;
+            _timer2.Start();
+        }
+
+
 
         public ObservableCollection<Email> EmailsToDisplay
         {
@@ -71,7 +109,6 @@ namespace SaintSender.DesktopUI
                 {
                     _emailsToDisplay.Add(email);
                 }
-
                 _allEmails = _emailsToDisplay.ToList<Email>();
             }
         }
@@ -124,7 +161,57 @@ namespace SaintSender.DesktopUI
             {
                 RefreshEmailList();
             }
+
+            //if (!boolChangedChecker(MainViewModel.InternetAvailable))
+            //{
+            //    InternetSetter();
+            //}
+
         }
+
+        private bool boolChangedChecker(bool value)
+        {
+            bool newValue;
+
+            try
+            {
+                using (var client = new WebClient())
+                {
+                    using (client.OpenRead("http://google.com/generate_204"))
+                    {
+                        newValue = true;
+                    }
+                }
+            }
+            catch
+            {
+                newValue = false;
+            }
+
+
+
+            if (value != newValue)
+            {
+                if (MainViewModel.InternetAvailable == false)
+                {
+                    MainViewModel.InternetAvailable = true;
+                }
+                else
+                {
+                    MainViewModel.InternetAvailable = false;
+                }
+
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+
+        }
+
+
+
 
         private void writeMail_Click(object sender, RoutedEventArgs e)
         {

@@ -21,8 +21,10 @@ namespace SaintSender.DesktopUI.ViewModels
         public ObservableCollection<Email> _emailsToDisplay;
         private static string _userName;
         private static string _password;
+        public static bool InternetAvailable;
 
-        public static bool CheckForInterNetConnection()
+
+        public static void CheckForInterNetConnection()
         {
             try
             {
@@ -30,13 +32,13 @@ namespace SaintSender.DesktopUI.ViewModels
                 {
                     using (client.OpenRead("http://google.com/generate_204"))
                     {
-                        return true;
+                        InternetAvailable = true;
                     }
                 }
             }
             catch
             {
-                return false;
+                InternetAvailable = false;
             }
         }
 
