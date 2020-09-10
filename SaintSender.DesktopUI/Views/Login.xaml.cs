@@ -29,16 +29,15 @@ namespace SaintSender.DesktopUI.Views
             InitializeComponent();
             _vm = new MainViewModel();
             txtEmail.Focus();
-
         }
 
         private void btnSignIn_Click(object sender, RoutedEventArgs e)
         {
             if (TryLogin(txtEmail.Text, txtPassword.Password))
             {
-                Close();
                 MainWindow mw = new MainWindow();
                 mw.Show();
+                this.Close();
             }
         }
 
@@ -51,9 +50,8 @@ namespace SaintSender.DesktopUI.Views
             catch (InvalidLoginException e)
             {
                 MessageBox.Show("Invalid Email or Password.");
-                txtEmail.Text = "";
                 txtPassword.Password = "";
-                txtEmail.Focus();
+                txtPassword.Focus();
 
                 return false;
             }
