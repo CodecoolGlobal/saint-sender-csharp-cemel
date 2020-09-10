@@ -47,7 +47,6 @@ namespace SaintSender.DesktopUI
             }
         }
 
-
         public ObservableCollection<Email> EmailsToDisplay
         {
             get { return _emailsToDisplay; }

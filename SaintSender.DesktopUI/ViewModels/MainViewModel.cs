@@ -10,6 +10,7 @@ using System.Text;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 using System.Net;
+using System.Security.Policy;
 
 namespace SaintSender.DesktopUI.ViewModels
 {
@@ -18,7 +19,8 @@ namespace SaintSender.DesktopUI.ViewModels
         private Pop3Client _client;
         private List<Message> _receivedEmails;
         public ObservableCollection<Email> _emailsToDisplay;
-
+        private static string _userName;
+        private static string _password;
 
         public static bool CheckForInterNetConnection()
         {
@@ -51,11 +53,19 @@ namespace SaintSender.DesktopUI.ViewModels
             }
         }
 
+        public void SetupClient(string userName, string password)
+        {
+            _userName = userName;
+            _password = password;
+            SetupClient();
+        }
+
         public void SetupClient()
         {
             _client = new Pop3Client();
             _client.Connect("pop.gmail.com", 995, true);
-            _client.Authenticate("csharptw5@gmail.com", "Csharp123", AuthenticationMethod.UsernameAndPassword);
+            //_client.Authenticate("csharptw5@gmail.com", "Csharp123", AuthenticationMethod.UsernameAndPassword);
+            _client.Authenticate(_userName, _password, AuthenticationMethod.UsernameAndPassword);
         }
 
          #region GetMessageBodies() code

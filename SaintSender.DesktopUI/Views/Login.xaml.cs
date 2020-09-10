@@ -1,5 +1,8 @@
-﻿using System;
+﻿using OpenPop.Pop3.Exceptions;
+using SaintSender.DesktopUI.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,16 +22,43 @@ namespace SaintSender.DesktopUI.Views
     /// </summary>
     public partial class Login : Window
     {
+        MainViewModel _vm;
+
         public Login()
         {
             InitializeComponent();
+            _vm = new MainViewModel();
+            txtEmail.Focus();
+
         }
 
         private void btnSignIn_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mw = new MainWindow();
-            mw.Show();
-            this.Close();
+            if (TryLogin(txtEmail.Text, txtPassword.Password))
+            {
+                Close();
+                MainWindow mw = new MainWindow();
+                mw.Show();
+            }
+        }
+
+        private bool TryLogin(string userName, string password)
+        {
+            try
+            {
+                _vm.SetupClient(userName, password);
+            }
+            catch (InvalidLoginException e)
+            {
+                MessageBox.Show("Invalid Email or Password.");
+                txtEmail.Text = "";
+                txtPassword.Password = "";
+                txtEmail.Focus();
+
+                return false;
+            }
+
+            return true;
         }
     }
 }
