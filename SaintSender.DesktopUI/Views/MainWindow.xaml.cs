@@ -111,11 +111,6 @@ namespace SaintSender.DesktopUI
             wm.Show();
         }
 
-        private void btnSearch_Click(object sender, RoutedEventArgs e)
-        {
-            SearchInEmails(txtSearch.Text);
-        }
-
         private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             SearchInEmails(txtSearch.Text);
