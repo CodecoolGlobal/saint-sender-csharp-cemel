@@ -28,12 +28,22 @@ namespace SaintSender.DesktopUI
         {
             InitializeComponent();
             DataContext = this;
-
-            _vm.GetEmails();
-            _emailsToDisplay = _vm.BuildUpEmailsToDisplay();
-            _allEmails = _emailsToDisplay.ToList<Email>();
-
-            SetTimer();
+            if (MainViewModel.CheckForInterNetConnection())
+            {
+                _vm.GetEmails();
+                _emailsToDisplay = _vm.BuildUpEmailsToDisplay();
+                _allEmails = _emailsToDisplay.ToList<Email>();
+                SetTimer();
+            }
+            else
+            {
+                _emailsToDisplay = _vm.ReadOutFromFiles();
+                if(_emailsToDisplay != null)
+                {
+                    _allEmails = _emailsToDisplay.ToList<Email>();
+                }
+                
+            }
         }
 
 
@@ -120,5 +130,12 @@ namespace SaintSender.DesktopUI
         {
             SearchInEmails(txtSearch.Text);
         }
+
+        private void Save_Email_To_Disk_Button_Click(object sender, RoutedEventArgs e)
+        {
+            _vm.BackUp(_emailsToDisplay);
+        }
+
+
     }
 }
