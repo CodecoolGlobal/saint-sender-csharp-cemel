@@ -24,7 +24,7 @@ namespace SaintSender.DesktopUI.ViewModels
             _receivedEmails = new List<Message>();
             int messageCount = _client.GetMessageCount();
 
-            for (int i = 1; i <= messageCount; i++)
+            for (int i = messageCount; i > 0; i--)
             {
                 _receivedEmails.Add(_client.GetMessage(i));
             }
