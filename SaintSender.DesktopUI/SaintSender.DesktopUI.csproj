@@ -83,6 +83,9 @@
     <Compile Include="Views\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ShowSavedEamailFromDisk.xaml.cs">
+      <DependentUpon>ShowSavedEamailFromDisk.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\WriteMail.xaml.cs">
       <DependentUpon>WriteMail.xaml</DependentUpon>
     </Compile>
@@ -103,6 +106,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\ShowSavedEamailFromDisk.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\WriteMail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

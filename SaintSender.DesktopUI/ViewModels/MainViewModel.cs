@@ -9,6 +9,7 @@ using System.IO;
 using System.Text;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
+using System.Net;
 
 namespace SaintSender.DesktopUI.ViewModels
 {
@@ -18,13 +19,33 @@ namespace SaintSender.DesktopUI.ViewModels
         private List<Message> _receivedEmails;
         public ObservableCollection<Email> _emailsToDisplay;
 
+
+        public static bool CheckForInterNetConnection()
+        {
+            try
+            {
+                using (var client = new WebClient())
+                {
+                    using (client.OpenRead("http://google.com/generate_204"))
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public void GetEmails()
         {
+
             SetupClient();
             _receivedEmails = new List<Message>();
             int messageCount = _client.GetMessageCount();
 
-            for (int i = 1; i <= messageCount; i++)
+            for (int i = messageCount; i > 0; i--)
             {
                 _receivedEmails.Add(_client.GetMessage(i));
             }
@@ -95,7 +116,6 @@ namespace SaintSender.DesktopUI.ViewModels
                 }
             }
 
-
             return _emailsToDisplay;
 
         }
@@ -104,7 +124,7 @@ namespace SaintSender.DesktopUI.ViewModels
         {
             
 
-            string filePath = @"C:\Users\Alex\OneDrive\Desktop\3rd_TW\SaintSender.Core\StoredMail.txt";
+            string filePath = @"StoredMail.txt";
 
             FileStream fileStream = new FileStream(filePath, FileMode.Create);
             BinaryFormatter formatter = new BinaryFormatter();
@@ -125,13 +145,14 @@ namespace SaintSender.DesktopUI.ViewModels
 
         }
 
-        public void ReadOutFromFiles()
+        public ObservableCollection<Email> ReadOutFromFiles()
         {
             // Declare the collection reference.
             ObservableCollection<Email> collection = null;
 
             // Open the file containing the data that you want to deserialize.
-            FileStream fs = new FileStream(@"C:\Users\Alex\OneDrive\Desktop\3rd_TW\SaintSender.Core\StoredMail.txt", FileMode.Open);
+            FileStream fs = new FileStream(@"StoredMail.txt", FileMode.Open);
+            
             try
             {
                 BinaryFormatter formatter = new BinaryFormatter();
@@ -143,7 +164,7 @@ namespace SaintSender.DesktopUI.ViewModels
             catch (SerializationException e)
             {
                 Console.WriteLine("Failed to deserialize. Reason: " + e.Message);
-                throw;
+                
             }
             finally
             {
@@ -152,10 +173,9 @@ namespace SaintSender.DesktopUI.ViewModels
 
             // To prove that the table deserialized correctly,
             // display the key/value pairs.
-            foreach (Email email in collection)
-            {
-                Console.WriteLine("email: {0}",email);
-            }
+            
+
+            return collection;
         }
 
     }

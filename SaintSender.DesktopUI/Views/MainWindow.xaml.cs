@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace SaintSender.DesktopUI
@@ -28,12 +29,22 @@ namespace SaintSender.DesktopUI
         {
             InitializeComponent();
             DataContext = this;
-
-            _vm.GetEmails();
-            _emailsToDisplay = _vm.BuildUpEmailsToDisplay();
-            _allEmails = _emailsToDisplay.ToList<Email>();
-
-            SetTimer();
+            if (MainViewModel.CheckForInterNetConnection())
+            {
+                _vm.GetEmails();
+                _emailsToDisplay = _vm.BuildUpEmailsToDisplay();
+                _allEmails = _emailsToDisplay.ToList<Email>();
+                SetTimer();
+            }
+            else
+            {
+                _emailsToDisplay = _vm.ReadOutFromFiles();
+                if(_emailsToDisplay != null)
+                {
+                    _allEmails = _emailsToDisplay.ToList<Email>();
+                }
+                
+            }
         }
 
 
@@ -70,16 +81,9 @@ namespace SaintSender.DesktopUI
         {
             string pattern = ".*";
 
-            if (text != null && text != "")
+            if (!string.IsNullOrWhiteSpace(text) && txtSearch.Foreground == Brushes.Black)
             {
-                if (text[0] == '\\')
-                {
-                    //pattern = text;
-                }
-                else
-                {
-                    pattern = $".*{text.ToUpperInvariant()}.*";
-                }
+                pattern = $".*{text.ToUpperInvariant()}.*";
             }
 
             var query = from item in _allEmails
@@ -97,9 +101,27 @@ namespace SaintSender.DesktopUI
             }
         }
 
+        private void AddPlaceholderText()
+        {
+            if (string.IsNullOrWhiteSpace(txtSearch.Text))
+            {
+                txtSearch.Text = "Search...";
+                txtSearch.Foreground = Brushes.Gray;
+            }
+        }
+
+        private void RemovePlaceholderText()
+        {
+            if (txtSearch.Text == "Search...")
+            {
+                txtSearch.Text = "";
+                txtSearch.Foreground = Brushes.Black;
+            }
+        }
+
         private void Timer_Tick(object sender, EventArgs e)
         {
-            if (txtSearch.Text == null || txtSearch.Text == "")
+            if (string.IsNullOrWhiteSpace(txtSearch.Text))
             {
                 RefreshEmailList();
             }
@@ -114,6 +136,28 @@ namespace SaintSender.DesktopUI
         private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             SearchInEmails(txtSearch.Text);
+        }
+
+        private void txtSearch_Loaded(object sender, RoutedEventArgs e)
+        {
+            AddPlaceholderText();
+        }
+
+        private void txtSearch_LostFocus(object sender, RoutedEventArgs e)
+        {
+            AddPlaceholderText();
+            SearchInEmails(txtSearch.Text);
+        }
+
+        private void Save_Email_To_Disk_Button_Click(object sender, RoutedEventArgs e)
+        {
+            _vm.BackUp(_emailsToDisplay);
+        }
+
+
+        private void txtSearch_GotFocus(object sender, RoutedEventArgs e)
+        {
+            RemovePlaceholderText();
         }
     }
 }
