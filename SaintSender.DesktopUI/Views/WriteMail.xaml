@@ -6,7 +6,13 @@
         xmlns:local="clr-namespace:SaintSender.DesktopUI.Views"
         mc:Ignorable="d"
         Title="WriteMail" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+    <StackPanel Margin="20">
+        <Label Content="_To:" Target="{Binding ElementName=txtTo}" />
+        <TextBox Name="txtTo" />
+        <Label Content="_Subject:" Target="{Binding ElementName=txtSubject}" />
+        <TextBox Name="txtSubject"/>
+        <Label Content="_Message:" Target="{Binding ElementName=txtMessage}" />
+        <TextBox Name="txtMessage" Height="230" />
+        <Button x:Name="btnSend" Click="btnSend_Click">Send</Button>
+    </StackPanel>
 </Window>
