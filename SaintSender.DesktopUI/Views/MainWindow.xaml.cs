@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 
@@ -61,11 +62,12 @@ namespace SaintSender.DesktopUI
         {   
             if(MainViewModel.InternetAvailable == true)
             {
-                InternetAvilableButton.Background = Brushes.Green;
+
+                Internet_Available_Button.Background = Brushes.Green;
             }
             else
             {
-                InternetAvilableButton.Background = Brushes.Red;
+                Internet_Available_Button.Background = Brushes.Red;
             }
 
 
@@ -160,12 +162,7 @@ namespace SaintSender.DesktopUI
             if (string.IsNullOrWhiteSpace(txtSearch.Text))
             {
                 RefreshEmailList();
-            }
-
-            //if (!boolChangedChecker(MainViewModel.InternetAvailable))
-            //{
-            //    InternetSetter();
-            //}
+            } 
 
         }
 
@@ -244,6 +241,17 @@ namespace SaintSender.DesktopUI
         private void txtSearch_GotFocus(object sender, RoutedEventArgs e)
         {
             RemovePlaceholderText();
+            
         }
+
+        private void ListViewItem_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+
+            Email email = (Email)(e.Source as FrameworkElement).DataContext;
+            SingleMail singleMailWindow = new SingleMail(email);
+            singleMailWindow.Show();
+
+        }
+
     }
 }

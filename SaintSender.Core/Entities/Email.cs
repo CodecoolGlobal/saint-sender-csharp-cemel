@@ -17,12 +17,14 @@ namespace SaintSender.Core.Entities
 
         public string Body { get; set; }
 
-        public Email(string sender, string date, string subject, string body)
+        public int ID { get; set; }
+        public Email(string sender, string date, string subject, string body, int id)
         {
             Sender = sender;
             Date = date;
             Subject = subject;
             Body = body;
+            ID = id;
         }
     }
 }

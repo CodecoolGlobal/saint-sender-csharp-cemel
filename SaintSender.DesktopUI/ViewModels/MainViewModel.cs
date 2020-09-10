@@ -101,9 +101,10 @@ namespace SaintSender.DesktopUI.ViewModels
         public ObservableCollection<Email> BuildUpEmailsToDisplay()
         {
             _emailsToDisplay = new ObservableCollection<Email>();
+            int counterID = 0;
             foreach (Message message in _receivedEmails)
             {
-                if (message.Headers.From.Address != "csharptw5@gmail.com")
+                if (message.Headers.From.Address != _userName)
                 {
                     MessagePart messagePart = message.FindFirstPlainTextVersion();
                     string body;
@@ -116,10 +117,12 @@ namespace SaintSender.DesktopUI.ViewModels
                     {
                         body = messagePart.GetBodyAsText();
                     }
+                    
 
                     try
                     {
-                        _emailsToDisplay.Add(new Email(message.Headers.ReturnPath.Address, message.Headers.Date, message.Headers.Subject, body));
+                        _emailsToDisplay.Add(new Email(message.Headers.ReturnPath.Address, message.Headers.Date, message.Headers.Subject, body, counterID));
+                        counterID++;
                     }
                     catch (NullReferenceException e)
                     {

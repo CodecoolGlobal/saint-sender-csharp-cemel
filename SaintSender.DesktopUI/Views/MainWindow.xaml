@@ -6,6 +6,13 @@
         xmlns:local="clr-namespace:SaintSender.DesktopUI"
         mc:Ignorable="d"
         Title="SainSender" Height="450" Width="800">
+
+    <Window.Resources>
+        <Style TargetType="ListViewItem">
+            <EventSetter x:Name="SingleMessage" Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>
+        </Style>
+    </Window.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
@@ -21,7 +28,7 @@
         <Button Content="Write Email" Margin="10" Name="writeMail" Click="writeMail_Click"/>
         <Button Content="Save Emails" Grid.Column="1" Margin="10" Click="Save_Email_To_Disk_Button_Click"/>
         <TextBox x:Name ="txtSearch" Grid.Column="4" Height="20" Width="120" Margin="10" Grid.ColumnSpan="2" TextChanged="txtSearch_TextChanged" GotFocus="txtSearch_GotFocus" LostFocus="txtSearch_LostFocus" Loaded="txtSearch_Loaded"/>
-        <Button x:Name="InternetAvilableButton" Grid.Column="2" Width="100" Height="20" Margin="10" Content="Internet Avilable"/>
+        <Button x:Name="Internet_Available_Button" Grid.Column="2" Width="100" Height="20" Margin="10" Content="Internet Avilable"/>
         <ListView ItemsSource="{Binding Path=EmailsToDisplay}" Margin="10" Grid.Row="1" Grid.ColumnSpan ="5">
             <ListView.View>
                 <GridView>
