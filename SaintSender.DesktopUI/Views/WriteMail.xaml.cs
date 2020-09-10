@@ -30,5 +30,10 @@ namespace SaintSender.DesktopUI.Views
             Sender.Email("csharptw5@gmail.com", "Csharp123", txtTo.Text, txtSubject.Text, txtMessage.Text);
             this.Close();
         }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }
