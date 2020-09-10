@@ -12,65 +12,64 @@ namespace SaintSender.DesktopUI.ViewModels
 {
     class MainViewModel
     {
-        private List<Message> receivedEmails;
-        public ObservableCollection<Email> emailToShow = new ObservableCollection<Email>();
+        private Pop3Client _client;
+        private List<Message> _receivedEmails;
+        public ObservableCollection<Email> _emailsToDisplay;
 
-        public List<Message> GetEmails()
+        public void GetEmails()
         {
-            Pop3Client client = new Pop3Client();
-            client.Connect("pop.gmail.com", 995, true);
-            client.Authenticate("csharptw5@gmail.com", "Csharp123", AuthenticationMethod.UsernameAndPassword);
+            SetupClient();
+            _receivedEmails = new List<Message>();
+            int messageCount = _client.GetMessageCount();
 
-            List<Message> messages = new List<Message>();
-            int messageCount = client.GetMessageCount();
-
-
-            for(int i = 1;i < messageCount; i++)
+            for (int i = 1; i <= messageCount; i++)
             {
-                messages.Add(client.GetMessage(i));
+                _receivedEmails.Add(_client.GetMessage(i));
             }
-
-            return messages;
         }
 
-        public void SetupEmails()
+        public void SetupClient()
         {
-            receivedEmails = GetEmails();
+            _client = new Pop3Client();
+            _client.Connect("pop.gmail.com", 995, true);
+            _client.Authenticate("csharptw5@gmail.com", "Csharp123", AuthenticationMethod.UsernameAndPassword);
         }
 
-        public List<string> GetMessageBodies()
-        {
-            var messageBodies = new List<string>();
+        #region GetMessageBodies() code
+        //public List<string> GetMessageBodies()
+        //{
+        //    var messageBodies = new List<string>();
 
-            foreach (Message message in receivedEmails)
+        //    foreach (Message message in receivedEmails)
+        //    {
+        //        MessagePart plainText = message.FindFirstPlainTextVersion();
+
+        //        if (plainText != null)
+        //        {
+        //            messageBodies.Add(plainText.GetBodyAsText());
+        //        }
+        //        else
+        //        {
+        //            MessagePart html = message.FindFirstHtmlVersion();
+
+        //            if (html != null)
+        //            {
+        //                messageBodies.Add(html.GetBodyAsText());
+        //            }
+        //        }
+        //    }
+
+        //    return messageBodies;
+        //}
+        #endregion
+
+        public ObservableCollection<Email> BuildUpEmailsToDisplay()
+        {
+            _emailsToDisplay = new ObservableCollection<Email>();
+            foreach (Message message in _receivedEmails)
             {
-                MessagePart plainText = message.FindFirstPlainTextVersion();
-
-                if (plainText != null)
+                if (message.Headers.From.Address != "csharptw5@gmail.com")
                 {
-                    messageBodies.Add(plainText.GetBodyAsText());
-                }
-                else
-                {
-                    MessagePart html = message.FindFirstHtmlVersion();
-
-                    if (html != null)
-                    {
-                        messageBodies.Add(html.GetBodyAsText());
-                    }
-                }
-            }
-
-            return messageBodies;
-        }
-
-        public ObservableCollection<Email> BuildUpEmailsToShow()
-        {
-            foreach (Message message in receivedEmails)
-            {
-                if(message.Headers.From.Address != "csharptw5@gmail.com")
-                {
-
                     MessagePart messagePart = message.FindFirstPlainTextVersion();
                     string body;
 
@@ -85,7 +84,7 @@ namespace SaintSender.DesktopUI.ViewModels
 
                     try
                     {
-                        emailToShow.Add(new Email(message.Headers.ReturnPath.Address, message.Headers.Date, message.Headers.Subject, body));
+                        _emailsToDisplay.Add(new Email(message.Headers.ReturnPath.Address, message.Headers.Date, message.Headers.Subject, body));
                     }
                     catch (NullReferenceException e)
                     {
@@ -93,8 +92,8 @@ namespace SaintSender.DesktopUI.ViewModels
                     }
                 }
             }
-            return emailToShow;
 
+            return _emailsToDisplay;
         }
     }
 }
