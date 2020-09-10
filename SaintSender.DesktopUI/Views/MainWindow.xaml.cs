@@ -22,7 +22,7 @@ namespace SaintSender.DesktopUI
         private MainViewModel _vm = new MainViewModel();
         public ObservableCollection<Email> _emailsToDisplay;
         private List<Email> _allEmails;
-        private DispatcherTimer _timer = new DispatcherTimer();
+        private DispatcherTimer _timer;
 
         public MainWindow()
         {
@@ -43,7 +43,8 @@ namespace SaintSender.DesktopUI
 
         private void SetTimer()
         {
-            _timer.Interval = new TimeSpan(0, 0, 5);
+            _timer = new DispatcherTimer();
+            _timer.Interval = new TimeSpan(0, 0, 10);
             _timer.Tick += Timer_Tick;
             _timer.Start();
         }
@@ -59,12 +60,13 @@ namespace SaintSender.DesktopUI
         private async void RefreshEmailList()
         {
             await Task.Run(() => _vm.GetEmails());
+
             if (txtSearch.Text == null || txtSearch.Text == "")
             {
                 _emailsToDisplay.Clear();
-                foreach (var stuff in _vm.BuildUpEmailsToDisplay())
+                foreach (var email in _vm.BuildUpEmailsToDisplay())
                 {
-                    _emailsToDisplay.Add(stuff);
+                    _emailsToDisplay.Add(email);
                 }
 
                 _allEmails = _emailsToDisplay.ToList<Email>();
@@ -93,7 +95,13 @@ namespace SaintSender.DesktopUI
 
             if (text != null && text != "")
             {
-                pattern = $".*{text.ToUpperInvariant()}.*";
+                if (text[0] == '\\')
+                {
+                    //pattern = text;
+                } else
+                {
+                    pattern = $".*{text.ToUpperInvariant()}.*";
+                }
             }
 
             var query = from item in _allEmails
@@ -103,10 +111,9 @@ namespace SaintSender.DesktopUI
                             || Regex.IsMatch(item.Subject.ToUpperInvariant(), pattern))
                         select item;
 
-            ObservableCollection<Email> bob = new ObservableCollection<Email>(query);
             _emailsToDisplay.Clear();
 
-            foreach (var item in bob)
+            foreach (var item in query)
             {
                 _emailsToDisplay.Add(item);
             }
