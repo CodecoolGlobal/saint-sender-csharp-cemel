@@ -11,6 +11,9 @@
         <TextBox Name="txtEmail" Width="140" HorizontalAlignment="Left" />
         <Label Content="_Password:" Target="{Binding ElementName=txtPassword}" />
         <PasswordBox Name="txtPassword" Width="140" HorizontalAlignment="Left" />
-        <Button x:Name="btnSignIn" Margin="10" Width="50" HorizontalAlignment="Right" Click="btnSignIn_Click">Sign In</Button>
+        <UniformGrid Columns="2">
+            <TextBlock Name="txtInfo" Margin="10" HorizontalAlignment="Left"></TextBlock>
+            <Button x:Name="btnSignIn" Margin="10" Width="50"  HorizontalAlignment="Right" Click="btnSignIn_Click">Sign In</Button>
+        </UniformGrid>
     </StackPanel>
 </Window>

@@ -43,13 +43,17 @@ namespace SaintSender.DesktopUI.Views
 
         private bool TryLogin(string userName, string password)
         {
+            txtInfo.Foreground = Brushes.Gray;
+            txtInfo.Text = "Please wait...";
             try
             {
                 _vm.SetupClient(userName, password);
             }
             catch (InvalidLoginException e)
             {
-                MessageBox.Show("Invalid Email or Password.");
+                //MessageBox.Show("Invalid Email or Password.");
+                txtInfo.Foreground = Brushes.Red;
+                txtInfo.Text = "Invalid Email or Password.";
                 txtPassword.Password = "";
                 txtPassword.Focus();
 
