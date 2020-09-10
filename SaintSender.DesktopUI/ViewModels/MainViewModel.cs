@@ -123,5 +123,38 @@ namespace SaintSender.DesktopUI.ViewModels
 
         }
 
+        public void ReadOutFromFiles()
+        {
+            // Declare the collection reference.
+            ObservableCollection<Email> collection = null;
+
+            // Open the file containing the data that you want to deserialize.
+            FileStream fs = new FileStream(@"C:\Users\Alex\OneDrive\Desktop\3rd_TW\SaintSender.Core\StoredMail.txt", FileMode.Open);
+            try
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+
+                // Deserialize the collection from the file and
+                // assign the reference to the local variable.
+                collection = (ObservableCollection<Email>)formatter.Deserialize(fs);
+            }
+            catch (SerializationException e)
+            {
+                Console.WriteLine("Failed to deserialize. Reason: " + e.Message);
+                throw;
+            }
+            finally
+            {
+                fs.Close();
+            }
+
+            // To prove that the table deserialized correctly,
+            // display the key/value pairs.
+            foreach (Email email in collection)
+            {
+                Console.WriteLine("email: {0}",email);
+            }
+        }
+
     }
 }

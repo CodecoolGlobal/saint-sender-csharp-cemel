@@ -43,5 +43,9 @@ namespace SaintSender.DesktopUI
             get { return emailToSHow; }
         }
 
+        private void OnClick1(object sender, RoutedEventArgs e)
+        {
+            _vm.ReadOutFromFiles();
+        }
     }
 }
