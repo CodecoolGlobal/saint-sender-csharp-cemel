@@ -28,11 +28,16 @@ namespace SaintSender.DesktopUI.Views
         {
             InitializeComponent();
             _vm = new MainViewModel();
-            txtEmail.Focus();
+            txtEmail.Text = "csharptw5@gmail.com";
+            txtPassword.Focus();
         }
 
-        private void btnSignIn_Click(object sender, RoutedEventArgs e)
+        private async void btnSignIn_Click(object sender, RoutedEventArgs e)
         {
+            txtInfo.Foreground = Brushes.Gray;
+            txtInfo.Text = "Please wait...";
+            await Task.Delay(100);
+
             if (TryLogin(txtEmail.Text, txtPassword.Password))
             {
                 MainWindow mw = new MainWindow();
@@ -49,7 +54,9 @@ namespace SaintSender.DesktopUI.Views
             }
             catch (InvalidLoginException e)
             {
-                MessageBox.Show("Invalid Email or Password.");
+                //MessageBox.Show("Invalid Email or Password.");
+                txtInfo.Foreground = Brushes.Red;
+                txtInfo.Text = "Invalid Email or Password.";
                 txtPassword.Password = "";
                 txtPassword.Focus();
 
