@@ -49,14 +49,6 @@ namespace SaintSender.DesktopUI
             _timer.Start();
         }
 
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            if (txtSearch.Text == null || txtSearch.Text == "")
-            {
-                RefreshEmailList();
-            }
-        }
-
         private async void RefreshEmailList()
         {
             await Task.Run(() => _vm.GetEmails());
@@ -73,22 +65,6 @@ namespace SaintSender.DesktopUI
             }
         }
 
-        private void writeMail_Click(object sender, RoutedEventArgs e)
-        {
-            WriteMail wm = new WriteMail();
-            wm.Show();
-        }
-
-        private void btnSearch_Click(object sender, RoutedEventArgs e)
-        {
-            SearchInEmails(txtSearch.Text);
-        }
-
-        private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            SearchInEmails(txtSearch.Text);
-        }
-
         private void SearchInEmails(string text)
         {
             string pattern = ".*";
@@ -98,7 +74,8 @@ namespace SaintSender.DesktopUI
                 if (text[0] == '\\')
                 {
                     //pattern = text;
-                } else
+                }
+                else
                 {
                     pattern = $".*{text.ToUpperInvariant()}.*";
                 }
@@ -117,6 +94,30 @@ namespace SaintSender.DesktopUI
             {
                 _emailsToDisplay.Add(item);
             }
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            if (txtSearch.Text == null || txtSearch.Text == "")
+            {
+                RefreshEmailList();
+            }
+        }
+
+        private void writeMail_Click(object sender, RoutedEventArgs e)
+        {
+            WriteMail wm = new WriteMail();
+            wm.Show();
+        }
+
+        private void btnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            SearchInEmails(txtSearch.Text);
+        }
+
+        private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SearchInEmails(txtSearch.Text);
         }
     }
 }
