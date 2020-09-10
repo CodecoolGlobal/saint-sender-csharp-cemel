@@ -83,5 +83,8 @@
     <None Include="ReadMe.md" />
     <None Include="Services\ReadMe.md" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="StoredMail.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -23,15 +23,29 @@
         <!--<Button Content="Button" Grid.Column="2"/>-->
         <TextBox x:Name ="txtSearch" Grid.Column="3" Height="20" Margin="2" TextChanged="txtSearch_TextChanged"/>
         <Button x:Name="btnSearch" Content="Search" Grid.Column="4" Height="20" Width="50" HorizontalAlignment="Left" Click="btnSearch_Click"/>
-
         <ListView ItemsSource="{Binding Path=EmailsToDisplay}" Margin="10" Grid.Row="1" Grid.ColumnSpan ="5">
             <ListView.View>
-            <GridView>
-                <GridViewColumn Header="Sender" DisplayMemberBinding="{Binding Path=Sender}"  />
-                <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Path=Subject}" />
-                <GridViewColumn Header="Preview" DisplayMemberBinding="{Binding Path=Body}" />
-            </GridView>
+                <GridView>
+                    <GridViewColumn Header="Sender" DisplayMemberBinding="{Binding Path=Sender}"  />
+                    <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Path=Subject}" />
+                    <GridViewColumn Header="Preview" DisplayMemberBinding="{Binding Path=Body}" />
+                </GridView>
             </ListView.View>
         </ListView>
-    </Grid>
+        <ListView ItemsSource="{Binding Path=EmailsToDisplay}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Sender" DisplayMemberBinding="{Binding Path=Sender}"  />
+                    <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Path=Subject}" />
+                    <GridViewColumn Header="Preview" DisplayMemberBinding="{Binding Path=Body}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+            
+        </Grid>
 </Window>

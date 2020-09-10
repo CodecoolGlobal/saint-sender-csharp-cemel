@@ -5,8 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
-
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
 
 namespace SaintSender.DesktopUI.ViewModels
 {
@@ -35,7 +37,7 @@ namespace SaintSender.DesktopUI.ViewModels
             _client.Authenticate("csharptw5@gmail.com", "Csharp123", AuthenticationMethod.UsernameAndPassword);
         }
 
-        #region GetMessageBodies() code
+         #region GetMessageBodies() code
         //public List<string> GetMessageBodies()
         //{
         //    var messageBodies = new List<string>();
@@ -93,7 +95,68 @@ namespace SaintSender.DesktopUI.ViewModels
                 }
             }
 
+
             return _emailsToDisplay;
+
         }
+
+        public void BackUp(ObservableCollection<Email> emailList)
+        {
+            
+
+            string filePath = @"C:\Users\Alex\OneDrive\Desktop\3rd_TW\SaintSender.Core\StoredMail.txt";
+
+            FileStream fileStream = new FileStream(filePath, FileMode.Create);
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            try
+            {
+                formatter.Serialize(fileStream, emailList);
+            }
+            catch (SerializationException e)
+            {
+                Console.WriteLine("Failed to serialize. Reason: " + e.Message);
+                throw;
+            }
+            finally
+            {
+                fileStream.Close();
+            }
+
+        }
+
+        public void ReadOutFromFiles()
+        {
+            // Declare the collection reference.
+            ObservableCollection<Email> collection = null;
+
+            // Open the file containing the data that you want to deserialize.
+            FileStream fs = new FileStream(@"C:\Users\Alex\OneDrive\Desktop\3rd_TW\SaintSender.Core\StoredMail.txt", FileMode.Open);
+            try
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+
+                // Deserialize the collection from the file and
+                // assign the reference to the local variable.
+                collection = (ObservableCollection<Email>)formatter.Deserialize(fs);
+            }
+            catch (SerializationException e)
+            {
+                Console.WriteLine("Failed to deserialize. Reason: " + e.Message);
+                throw;
+            }
+            finally
+            {
+                fs.Close();
+            }
+
+            // To prove that the table deserialized correctly,
+            // display the key/value pairs.
+            foreach (Email email in collection)
+            {
+                Console.WriteLine("email: {0}",email);
+            }
+        }
+
     }
 }

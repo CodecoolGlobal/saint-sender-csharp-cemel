@@ -36,6 +36,7 @@ namespace SaintSender.DesktopUI
             SetTimer();
         }
 
+
         public ObservableCollection<Email> EmailsToDisplay
         {
             get { return _emailsToDisplay; }
