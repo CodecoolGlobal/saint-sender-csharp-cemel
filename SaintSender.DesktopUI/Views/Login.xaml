@@ -10,7 +10,7 @@
         <Label Content="_Email:" Target="{Binding ElementName=txtEmail}" />
         <TextBox Name="txtEmail" />
         <Label Content="_Password:" Target="{Binding ElementName=txtPassword}" />
-        <TextBox Name="txtPassword" />
+        <PasswordBox Name="txtPassword" />
         <Button x:Name="btnSignIn" Margin="10" Width="50" Click="btnSignIn_Click">Sign In</Button>
     </StackPanel>
 </Window>
