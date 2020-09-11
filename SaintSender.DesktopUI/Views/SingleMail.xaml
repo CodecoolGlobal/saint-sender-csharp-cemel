@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SaintSender.DesktopUI.Views"
         mc:Ignorable="d"
-        Title="SingleMail" Height="450" Width="800">
+        Title="SingleMail" Height="200" Width="750">
     <Grid>
 
         <Grid>
@@ -21,7 +21,7 @@
                 </StackPanel>
                 
                 <StackPanel>
-                    <TextBlock Text = "Body " />
+                    <TextBlock Text = "Body: " />
                     <TextBlock Margin = "10" Text="{Binding Body}"/>
                 </StackPanel>
             </StackPanel>
