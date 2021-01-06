@@ -80,23 +80,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Views\Login.xaml.cs">
-      <DependentUpon>Login.xaml</DependentUpon>
+    <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\Predicate.cs" />
+    <Compile Include="ViewModels\RelayCommand.cs" />
+    <Compile Include="ViewModels\SetUpClient.cs" />
+    <Compile Include="Views\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ShowSavedEamailFromDisk.xaml.cs">
-      <DependentUpon>ShowSavedEamailFromDisk.xaml</DependentUpon>
+    <Compile Include="Views\ShowSavedEamailFromDiskView.xaml.cs">
+      <DependentUpon>ShowSavedEamailFromDiskView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SingleMail.xaml.cs">
-      <DependentUpon>SingleMail.xaml</DependentUpon>
+    <Compile Include="Views\SingleMailView.xaml.cs">
+      <DependentUpon>SingleMailView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\WriteMail.xaml.cs">
-      <DependentUpon>WriteMail.xaml</DependentUpon>
+    <Compile Include="Views\WriteMailView.xaml.cs">
+      <DependentUpon>WriteMailView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\Login.xaml">
+    <Page Include="Views\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MainWindow.xaml">
+    <Page Include="Views\MainWindowView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -105,19 +109,19 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="Views\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="Views\MainWindowView.xaml.cs">
+      <DependentUpon>MainWindowView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\ShowSavedEamailFromDisk.xaml">
+    <Page Include="Views\ShowSavedEamailFromDiskView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SingleMail.xaml">
+    <Page Include="Views\SingleMailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\WriteMail.xaml">
+    <Page Include="Views\WriteMailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

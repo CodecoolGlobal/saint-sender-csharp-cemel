@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="ShowSavedEamailFromDisk" Height="450" Width="800">
     <Grid>
-        <ListView ItemsSource="{Binding Path=EmailsToDisplay}" Margin="10" Grid.Row="1" Grid.ColumnSpan ="5">
+        <ListView ItemsSource="{Binding Path=EmailsToDisplay}" Margin="10,13,10,7">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Sender" DisplayMemberBinding="{Binding Path=Sender}"  />

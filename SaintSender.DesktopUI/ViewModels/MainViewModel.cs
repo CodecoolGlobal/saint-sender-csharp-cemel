@@ -70,7 +70,7 @@ namespace SaintSender.DesktopUI.ViewModels
             _client.Authenticate(_userName, _password, AuthenticationMethod.UsernameAndPassword);
         }
 
-         #region GetMessageBodies() code
+        #region GetMessageBodies() code
         //public List<string> GetMessageBodies()
         //{
         //    var messageBodies = new List<string>();
@@ -111,7 +111,13 @@ namespace SaintSender.DesktopUI.ViewModels
 
                     if (!message.MessagePart.IsMultiPart)
                     {
+                        
                         body = message.MessagePart.GetBodyAsText();
+                    }
+
+                    else if(messagePart == null)
+                    {
+                        body = " ";
                     }
                     else
                     {

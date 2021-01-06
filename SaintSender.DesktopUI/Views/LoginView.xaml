@@ -1,4 +1,4 @@
-﻿<Window x:Class="SaintSender.DesktopUI.Views.Login"
+﻿<Window x:Class="SaintSender.DesktopUI.Views.LoginView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,10 +10,12 @@
         <Label Content="_Email:" Target="{Binding ElementName=txtEmail}" />
         <TextBox Name="txtEmail" Width="140" HorizontalAlignment="Left" />
         <Label Content="_Password:" Target="{Binding ElementName=txtPassword}" />
-        <PasswordBox Name="txtPassword" Width="140" HorizontalAlignment="Left" />
+        <TextBox Name="txtPassword" Width="140" HorizontalAlignment="Left" />
         <UniformGrid Columns="2">
             <TextBlock Name="txtInfo" Margin="10" HorizontalAlignment="Left"></TextBlock>
-            <Button x:Name="btnSignIn" Margin="10" Width="50"  HorizontalAlignment="Right" Click="btnSignIn_Click">Sign In</Button>
+            <Button Margin="10" Width="50"  HorizontalAlignment="Right" Command="{Binding ButtonSignInClick}"  >
+                Sign In
+            </Button>
         </UniformGrid>
     </StackPanel>
 </Window>
