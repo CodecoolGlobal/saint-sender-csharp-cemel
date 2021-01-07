@@ -8,9 +8,9 @@
         Title="Login" Height="190" Width="360">
     <StackPanel Margin="10">
         <Label Content="_Email:" Target="{Binding ElementName=txtEmail}" />
-        <TextBox Name="txtEmail" Width="140" HorizontalAlignment="Left" />
+        <TextBox Name="txtEmail" Width="140" HorizontalAlignment="Left" Text="{Binding TextBoxEmailInput}"/>
         <Label Content="_Password:" Target="{Binding ElementName=txtPassword}" />
-        <TextBox Name="txtPassword" Width="140" HorizontalAlignment="Left" />
+        <TextBox Name="txtPassword" Width="140" HorizontalAlignment="Left" Text="{Binding TextBoxPasswordInput}" />
         <UniformGrid Columns="2">
             <TextBlock Name="txtInfo" Margin="10" HorizontalAlignment="Left"></TextBlock>
             <Button Margin="10" Width="50"  HorizontalAlignment="Right" Command="{Binding ButtonSignInClick}"  >

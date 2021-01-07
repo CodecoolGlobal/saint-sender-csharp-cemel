@@ -7,21 +7,29 @@ using System.Windows.Input;
 
 namespace SaintSender.DesktopUI.ViewModels
 {
-    public class RelayCommand : ICommand
+    public class RelayCommand<T> : ICommand
     {
-        private readonly Predicate<object> _canExecute;
-        private readonly Action<object> _execute;
+        private readonly Predicate<T> _canExecute;
+        private readonly Action<T> _execute;
+        private Action signInClick;
+        private Func<object, bool> signInCanUse;
 
-        public RelayCommand(Action<object> execute, Predicate<Object> canExecute)
+        public RelayCommand(Action<T> execute, Predicate<T> canExecute)
         {
             if (execute == null) throw new NullReferenceException("execute");
             _execute = execute;
             _canExecute = canExecute; 
         }
 
-        public RelayCommand(Action<object> execute) : this(execute, null)
+        public RelayCommand(Action<T> execute, object signInCanUse) : this(execute, null)
         {
 
+        }
+
+        public RelayCommand(Action signInClick, Func<object, bool> signInCanUse)
+        {
+            this.signInClick = signInClick;
+            this.signInCanUse = signInCanUse;
         }
 
         public event EventHandler CanExecuteChanged
@@ -35,12 +43,12 @@ namespace SaintSender.DesktopUI.ViewModels
         public bool CanExecute(object parameter)
         {
             //will return the value that provides if not null
-            return _canExecute == null ? true : _canExecute(parameter);
+            return _canExecute == null ? true : _canExecute((T)parameter);
         }
 
         public void Execute(object parameter)
         {
-            _execute.Invoke(parameter);
+            _execute.Invoke((T)parameter);
         }
     }
 }

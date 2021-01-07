@@ -8,83 +8,102 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using SaintSender.Core.Entities;
+using OpenPop.Pop3.Exceptions;
 
 namespace SaintSender.DesktopUI.ViewModels
 {
-    public class LoginViewModel 
+    public class LoginViewModel : ViewModelBase
     {
-        private String _username;
-        private String _password;
+        MainViewModel _mvm = new MainViewModel();
+        private string _textBoxEmailInput;
+        private string _textBoxPasswordInput;
 
-        public RelayCommand ButtonSignInClick { get; set; }
+        public RelayCommand<string> _buttonSignInClick { get; set; }
  
-        public String UserName
+        public RelayCommand<string> SubmitLoginButton
         {
-            get { return _username; }
+            get
+            {
+                if(_buttonSignInClick == null)
+                {
+                    _buttonSignInClick = new RelayCommand<string>(SignInClick,SignInCanUse);
+                }
+                return _buttonSignInClick;
+            }
+        }
+
+
+        public String TextBoxEmailInput
+        {
+            get { return _textBoxEmailInput; }
+            set { SetProperty(ref _textBoxEmailInput, value, TextBoxEmailInput); }   // not sure
         }
         
-        public String Password
+        public String TextBoxPasswordInput
         {
-            get { return _password; }
+            get { return _textBoxPasswordInput; }
+            set { SetProperty(ref _textBoxPasswordInput, value, TextBoxPasswordInput); }
          }
 
         public LoginViewModel() 
-        {
-            ButtonSignInClick = new RelayCommand(DisplayInMessageBox,MessageBoxCanUse);
-        }
-        public void DisplayInMessageBox(object message)
-        {
-            MessageBox.Show("Working");
+        { 
+            
+            
         }
 
-        public bool MessageBoxCanUse(object message)
+
+        public bool SignInCanUse(object message)
         {
             //if ((string)message == "Im a console") return false;
             return true;
         }
 
 
+        
 
 
 
-
-        //public async void ButtonSignInClick(object sender)
-        //{
-            
-
-        //    //txtInfo.Foreground = Brushes.Gray;
-        //    //txtInfo.Text = "Please wait...";
-        //    //await Task.Delay(100);
-
-        //    //if (TryLogin(txtEmail.Text, txtPassword.Password))
-        //    //{ 
-        //    //    MainWindow mw = new MainWindow();
-        //    //    mw.Show();
-        //    //    this.Close();
-        //    //}
+        public async void SignInClick()
+        {
 
 
-        //}
+            //txtInfo.Foreground = Brushes.Gray;
+            //txtInfo.Text = "Please wait...";
+            await Task.Delay(100);
 
-        //private bool TryLogin(string userName, string password)
-        //{
-        //    try
-        //    {
-        //        _vm.SetupClient(userName, password);
-        //    }
-        //    catch (InvalidLoginException e)
-        //    {
 
-        //        //MessageBox.Show("Invalid Email or Password.");
-        //        txtInfo.Foreground = Brushes.Red;
-        //        txtInfo.Text = "Invalid Email or Password.";
-        //        Console.WriteLine("Failure: " + e);
-        //        txtPassword.Password = "";
-        //        txtPassword.Focus();
-        //        return false;
-        //    }
 
-        //    return true;
-        //}
+            if (TryLogin(_textBoxEmailInput, _textBoxPasswordInput))
+            {
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                //this.Close();
+            }
+
+
+        }
+
+        private bool TryLogin(string userName, string password)
+        {
+            try
+            {
+                _mvm.SetupClient(userName, password);
+            }
+            catch (InvalidLoginException e)
+            {
+
+                //MessageBox.Show("Invalid Email or Password.");
+                //txtInfo.Foreground = Brushes.Red;
+                //txtInfo.Text = "Invalid Email or Password.";
+                //Console.WriteLine("Failure: " + e);
+                //txtPassword.Password = "";
+                //txtPassword.Focus();
+                MessageBox.Show("Signing in was not successful");
+                return false;
+            }
+
+            return true;
+        }
     }
 }
