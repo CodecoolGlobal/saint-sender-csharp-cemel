@@ -113,11 +113,16 @@ namespace SaintSender.DesktopUI.ViewModels
                     {
                         body = message.MessagePart.GetBodyAsText();
                     }
+                    else if (messagePart == null)
+                    {
+                        body = " ";
+                    }
                     else
                     {
                         body = messagePart.GetBodyAsText();
                     }
-                    
+
+
 
                     try
                     {
