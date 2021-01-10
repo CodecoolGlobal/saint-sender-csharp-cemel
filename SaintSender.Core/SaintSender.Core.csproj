@@ -83,5 +83,8 @@
     <None Include="ReadMe.md" />
     <None Include="Services\ReadMe.md" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="cemelPicture.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
