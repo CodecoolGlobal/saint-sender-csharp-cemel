@@ -19,15 +19,15 @@ namespace SaintSender.DesktopUI.ViewModels
         private string _textBoxEmailInput;
         private string _textBoxPasswordInput;
 
-        public RelayCommand<string> _buttonSignInClick { get; set; }
+        public ICommand _buttonSignInClick { get; set; }
  
-        public RelayCommand<string> SubmitLoginButton
+        public ICommand SubmitLoginButton
         {
             get
             {
                 if(_buttonSignInClick == null)
                 {
-                    _buttonSignInClick = new RelayCommand<string>(SignInClick,SignInCanUse);
+                    _buttonSignInClick = new RelayCommand<string>(ButtonSignInClick,SignInCanUse);
                 }
                 return _buttonSignInClick;
             }
@@ -47,9 +47,9 @@ namespace SaintSender.DesktopUI.ViewModels
          }
 
         public LoginViewModel() 
-        { 
-            
-            
+        {
+            _buttonSignInClick = new RelayCommand<string>(ButtonSignInClick, SignInCanUse);
+
         }
 
 
@@ -59,20 +59,13 @@ namespace SaintSender.DesktopUI.ViewModels
             return true;
         }
 
-
-        
-
-
-
-        public async void SignInClick()
+        public void ButtonSignInClick()
         {
 
 
             //txtInfo.Foreground = Brushes.Gray;
             //txtInfo.Text = "Please wait...";
-            await Task.Delay(100);
-
-
+            //await Task.Delay(100);
 
             if (TryLogin(_textBoxEmailInput, _textBoxPasswordInput))
             {

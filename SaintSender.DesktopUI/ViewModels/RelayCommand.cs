@@ -11,8 +11,8 @@ namespace SaintSender.DesktopUI.ViewModels
     {
         private readonly Predicate<T> _canExecute;
         private readonly Action<T> _execute;
-        private Action signInClick;
-        private Func<object, bool> signInCanUse;
+        //private Action signInClick;
+        //private Func<object, bool> signInCanUse;
 
         public RelayCommand(Action<T> execute, Predicate<T> canExecute)
         {
@@ -26,11 +26,11 @@ namespace SaintSender.DesktopUI.ViewModels
 
         }
 
-        public RelayCommand(Action signInClick, Func<object, bool> signInCanUse)
-        {
-            this.signInClick = signInClick;
-            this.signInCanUse = signInCanUse;
-        }
+        //public RelayCommand(Action signInClick, Func<object, bool> signInCanUse)
+        //{
+        //    this.signInClick = signInClick;
+        //    this.signInCanUse = signInCanUse;
+        //}
 
         public event EventHandler CanExecuteChanged
         {
