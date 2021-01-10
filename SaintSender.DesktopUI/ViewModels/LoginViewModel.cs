@@ -19,24 +19,24 @@ namespace SaintSender.DesktopUI.ViewModels
         private string _textBoxEmailInput;
         private string _textBoxPasswordInput;
 
-        public ICommand _buttonSignInClick { get; set; }
- 
-        public ICommand SubmitLoginButton
-        {
-            get
-            {
-                if(_buttonSignInClick == null)
-                {
-                    _buttonSignInClick = new RelayCommand<string>(ButtonSignInClick,SignInCanUse);
-                }
-                return _buttonSignInClick;
-            }
-        }
+        public RelayCommand ButtonSignInClick { get; set; }
+
+        //public ICommand SubmitLoginButton
+        //{
+        //    get
+        //    {
+        //        if (_buttonSignInClick == null)
+        //        {
+        //            _buttonSignInClick = new RelayCommand(ButtonSignInClick, SignInCanUse);
+        //        }
+        //        return _buttonSignInClick;
+        //    }
+        //}
 
 
         public String TextBoxEmailInput
         {
-            get { return _textBoxEmailInput; }
+            get  { return _textBoxEmailInput; }
             set { SetProperty(ref _textBoxEmailInput, value, TextBoxEmailInput); }   // not sure
         }
         
@@ -48,7 +48,7 @@ namespace SaintSender.DesktopUI.ViewModels
 
         public LoginViewModel() 
         {
-            _buttonSignInClick = new RelayCommand<string>(ButtonSignInClick, SignInCanUse);
+            ButtonSignInClick = new RelayCommand(SignInClick, SignInCanUse);
 
         }
 
@@ -59,9 +59,9 @@ namespace SaintSender.DesktopUI.ViewModels
             return true;
         }
 
-        public void ButtonSignInClick()
+        public void SignInClick(object parameter)
         {
-
+            //MessageBox.Show(parameter.ToString());
 
             //txtInfo.Foreground = Brushes.Gray;
             //txtInfo.Text = "Please wait...";
@@ -73,8 +73,6 @@ namespace SaintSender.DesktopUI.ViewModels
                 mw.Show();
                 //this.Close();
             }
-
-
         }
 
         private bool TryLogin(string userName, string password)
@@ -85,7 +83,6 @@ namespace SaintSender.DesktopUI.ViewModels
             }
             catch (InvalidLoginException e)
             {
-
                 //MessageBox.Show("Invalid Email or Password.");
                 //txtInfo.Foreground = Brushes.Red;
                 //txtInfo.Text = "Invalid Email or Password.";
