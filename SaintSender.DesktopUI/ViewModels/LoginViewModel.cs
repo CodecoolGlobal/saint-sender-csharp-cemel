@@ -15,25 +15,27 @@ namespace SaintSender.DesktopUI.ViewModels
 {
     public class LoginViewModel : ViewModelBase
     {
-        MainViewModel _mvm = new MainViewModel();
+        MainViewModel _mvm;
+        private User _user;
         private string _textBoxEmailInput;
         private string _textBoxPasswordInput;
+        private string _textInfo;
+        private Brush _color;
 
         public RelayCommand ButtonSignInClick { get; set; }
 
-        //public ICommand SubmitLoginButton
-        //{
-        //    get
-        //    {
-        //        if (_buttonSignInClick == null)
-        //        {
-        //            _buttonSignInClick = new RelayCommand(ButtonSignInClick, SignInCanUse);
-        //        }
-        //        return _buttonSignInClick;
-        //    }
-        //}
-
-
+        public Brush TextColor
+        {
+            get { return _color; }
+            set { _color = value; OnPropertyChanged(); }
+        }
+        public String TextInformation   
+        {
+            get { return _textInfo; }
+            set { SetProperty(ref _textInfo, value, TextInformation); }
+  
+        }
+        
         public String TextBoxEmailInput
         {
             get  { return _textBoxEmailInput; }
@@ -49,7 +51,7 @@ namespace SaintSender.DesktopUI.ViewModels
         public LoginViewModel() 
         {
             ButtonSignInClick = new RelayCommand(SignInClick, SignInCanUse);
-
+            _mvm = new MainViewModel();
         }
 
 
@@ -59,19 +61,23 @@ namespace SaintSender.DesktopUI.ViewModels
             return true;
         }
 
-        public void SignInClick(object parameter)
+   
+        public async void SignInClick(object parameter)
         {
-            //MessageBox.Show(parameter.ToString());
-
-            //txtInfo.Foreground = Brushes.Gray;
-            //txtInfo.Text = "Please wait...";
-            //await Task.Delay(100);
+            
+            TextInformation = "Please wait...";
+            TextColor = Brushes.Gray;                  
+            await Task.Delay(100);
 
             if (TryLogin(_textBoxEmailInput, _textBoxPasswordInput))
             {
                 MainWindow mw = new MainWindow();
                 mw.Show();
-                //this.Close();
+                foreach(Window item in Application.Current.Windows)
+                {
+                    if (item.DataContext == this) item.Close();
+                }
+                
             }
         }
 
@@ -90,6 +96,10 @@ namespace SaintSender.DesktopUI.ViewModels
                 //txtPassword.Password = "";
                 //txtPassword.Focus();
                 MessageBox.Show("Signing in was not successful");
+                TextInformation = "Invalid Email or Password";
+
+                TextBoxPasswordInput = "";
+                
                 return false;
             }
 

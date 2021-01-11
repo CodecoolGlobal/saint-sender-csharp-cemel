@@ -66,8 +66,7 @@ namespace SaintSender.DesktopUI.ViewModels
         {
             _client = new Pop3Client();
             _client.Connect("pop.gmail.com", 995, true);
-            //_client.Authenticate("csharptw5@gmail.com", "Csharp123", AuthenticationMethod.UsernameAndPassword);
-            _client.Authenticate(_userName, _password, AuthenticationMethod.UsernameAndPassword);
+           _client.Authenticate(_userName, _password, AuthenticationMethod.UsernameAndPassword);
         }
 
         #region GetMessageBodies() code

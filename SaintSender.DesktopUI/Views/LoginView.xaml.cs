@@ -27,8 +27,8 @@ namespace SaintSender.DesktopUI.Views
         public LoginView()
         {
             InitializeComponent();
-            //_lvm = new LoginViewModel();
-            DataContext = new LoginViewModel();
+            _lvm = new LoginViewModel();
+            DataContext = _lvm;
             txtEmail.Text = "Type email";
             txtPassword.Focus();
         }
