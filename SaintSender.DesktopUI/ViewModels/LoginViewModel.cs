@@ -16,12 +16,11 @@ namespace SaintSender.DesktopUI.ViewModels
     public class LoginViewModel : ViewModelBase
     {
         MainViewModel _mvm;
-        private User _user;
+        private User user;
         private string _textBoxEmailInput;
         private string _textBoxPasswordInput;
         private string _textInfo;
         private Brush _color;
-
         public RelayCommand ButtonSignInClick { get; set; }
 
         public Brush TextColor
@@ -54,13 +53,11 @@ namespace SaintSender.DesktopUI.ViewModels
             _mvm = new MainViewModel();
         }
 
-
         public bool SignInCanUse(object message)
         {
             return true;
         }
 
-   
         public async void SignInClick(object parameter)
         {
             var passwordBox = (parameter as System.Windows.Controls.PasswordBox);
@@ -80,12 +77,14 @@ namespace SaintSender.DesktopUI.ViewModels
                 }
             }
         }
-
         private bool TryLogin(string userName, string password)
         {
             try
             {
                 _mvm.SetupClient(userName, password);
+                user = new User();
+                user.Email = userName;
+                user.Password = password;
             }
             catch (InvalidLoginException e)
             {
