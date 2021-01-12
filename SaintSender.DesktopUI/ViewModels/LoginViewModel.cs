@@ -32,20 +32,20 @@ namespace SaintSender.DesktopUI.ViewModels
         public String TextInformation   
         {
             get { return _textInfo; }
-            set { SetProperty(ref _textInfo, value, TextInformation); }
+            set { _textInfo = value; OnPropertyChanged(); }
   
         }
         
         public String TextBoxEmailInput
         {
             get  { return _textBoxEmailInput; }
-            set { SetProperty(ref _textBoxEmailInput, value, TextBoxEmailInput); }   // not sure
+            set { _textBoxEmailInput = value;OnPropertyChanged(); }   // not sure
         }
         
         public String TextBoxPasswordInput
         {
             get { return _textBoxPasswordInput; }
-            set { SetProperty(ref _textBoxPasswordInput, value, TextBoxPasswordInput); }
+            set { _textBoxPasswordInput = value;OnPropertyChanged(); }
          }
 
         public LoginViewModel() 
@@ -57,7 +57,6 @@ namespace SaintSender.DesktopUI.ViewModels
 
         public bool SignInCanUse(object message)
         {
-            //if ((string)message == "Im a console") return false;
             return true;
         }
 
@@ -77,7 +76,6 @@ namespace SaintSender.DesktopUI.ViewModels
                 {
                     if (item.DataContext == this) item.Close();
                 }
-                
             }
         }
 
@@ -89,20 +87,13 @@ namespace SaintSender.DesktopUI.ViewModels
             }
             catch (InvalidLoginException e)
             {
-                //MessageBox.Show("Invalid Email or Password.");
-                //txtInfo.Foreground = Brushes.Red;
-                //txtInfo.Text = "Invalid Email or Password.";
-                //Console.WriteLine("Failure: " + e);
-                //txtPassword.Password = "";
-                //txtPassword.Focus();
                 MessageBox.Show("Signing in was not successful");
-                TextInformation = "Invalid Email or Password";
-
                 TextBoxPasswordInput = "";
+                TextBoxEmailInput = "";
+                TextInformation = "";
                 
                 return false;
             }
-
             return true;
         }
     }
