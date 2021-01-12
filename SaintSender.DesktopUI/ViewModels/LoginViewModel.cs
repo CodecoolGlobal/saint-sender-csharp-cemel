@@ -63,11 +63,13 @@ namespace SaintSender.DesktopUI.ViewModels
    
         public async void SignInClick(object parameter)
         {
-            
+            var passwordBox = (parameter as System.Windows.Controls.PasswordBox);
+            var password = passwordBox.Password;
+            TextBoxPasswordInput = (string)password;
+            passwordBox.Clear();
             TextInformation = "Please wait...";
             TextColor = Brushes.Gray;                  
             await Task.Delay(100);
-
             if (TryLogin(_textBoxEmailInput, _textBoxPasswordInput))
             {
                 MainWindow mw = new MainWindow();
@@ -91,7 +93,6 @@ namespace SaintSender.DesktopUI.ViewModels
                 TextBoxPasswordInput = "";
                 TextBoxEmailInput = "";
                 TextInformation = "";
-                
                 return false;
             }
             return true;

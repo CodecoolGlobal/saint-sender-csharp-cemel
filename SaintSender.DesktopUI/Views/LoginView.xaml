@@ -10,10 +10,10 @@
         <Label Content="_Email:" Target="{Binding ElementName=txtEmail}" />
         <TextBox Name="txtEmail" Width="140" HorizontalAlignment="Left" Text="{Binding TextBoxEmailInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <Label Content="_Password:" Target="{Binding ElementName=txtPassword}" Margin="5,0,-5,0" />
-        <PasswordBox Name="txtPassword" Width="140" HorizontalAlignment="Left" Text="{Binding TextBoxPasswordInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  />
+        <PasswordBox Name="txtPassword" Width="140" HorizontalAlignment="Left" Password=""   />
         <UniformGrid Columns="2">
             <TextBlock Name="txtInfo" Foreground="{Binding TextColor}" Text="{Binding TextInformation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Margin="10" HorizontalAlignment="Left"></TextBlock>
-            <Button Margin="10" Width="50"  HorizontalAlignment="Right" Command="{Binding ButtonSignInClick}"  >
+            <Button Margin="10" Width="50"  HorizontalAlignment="Right" Command="{Binding ButtonSignInClick}" CommandParameter="{Binding ElementName=txtPassword}"  >
                 Sign In
             </Button>
         </UniformGrid>
