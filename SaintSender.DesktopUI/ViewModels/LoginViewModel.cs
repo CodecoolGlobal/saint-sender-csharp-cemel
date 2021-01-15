@@ -19,7 +19,7 @@ namespace SaintSender.DesktopUI.ViewModels
         private string _textBoxPasswordInput;
         private string _textInfo;
         private Brush _color;
-        MainWindow mainWindowView;
+        MainWindowView mainWindowView;
         public RelayCommand ButtonSignInClick { get; set; }
 
         public Brush TextColor
@@ -31,7 +31,6 @@ namespace SaintSender.DesktopUI.ViewModels
         {
             get { return _textInfo; }
             set { _textInfo = value; OnPropertyChanged(); }
-  
         }
         
         public String TextBoxEmailInput
@@ -49,7 +48,6 @@ namespace SaintSender.DesktopUI.ViewModels
         public LoginViewModel() 
         {
             ButtonSignInClick = new RelayCommand(SignInClick, SignInCanUse);
-            
         }
 
         public bool SignInCanUse(object message)
@@ -78,7 +76,7 @@ namespace SaintSender.DesktopUI.ViewModels
         {
             try
             {
-                mainWindowView = new MainWindow(userName, password);
+                mainWindowView = new MainWindowView(userName, password);
                 mainWindowView.Show();
             }
             catch (InvalidLoginException e)

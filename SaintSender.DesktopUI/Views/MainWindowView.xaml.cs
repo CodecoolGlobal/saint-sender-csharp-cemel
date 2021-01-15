@@ -21,17 +21,17 @@ namespace SaintSender.DesktopUI
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindowView : Window
     {
         private MainViewModel _vm;
-        //private InternetChecker _ic = new InternetChecker(); 
-        //public ObservableCollection<Email> _emailsToDisplay;
-        //private List<Email> _allEmails;
-        //private DispatcherTimer _timer;
-        //private DispatcherTimer _timer2;
-        //private InternetChecker InternetChecker;
+        private InternetChecker _ic = new InternetChecker();
+        public ObservableCollection<Email> _emailsToDisplay;
+        private List<Email> _allEmails;
+        private DispatcherTimer _timer;
+        private DispatcherTimer _timer2;
+        private InternetChecker InternetChecker;
 
-        public MainWindow(string UserName, string Password)
+        public MainWindowView(string UserName, string Password)
         {
             InitializeComponent();
             _vm = new MainViewModel(UserName, Password);
@@ -39,25 +39,7 @@ namespace SaintSender.DesktopUI
         }
 
 
-        //public void InternetSetter()
-        //{
-        //    if (InternetChecker.InternetAvailable)
-        //    {
-        //        _vm.GetEmails();
-        //        _emailsToDisplay = _vm.BuildUpEmailsToDisplay();
-        //        _allEmails = _emailsToDisplay.ToList<Email>();
-        //        SetTimer();
-        //        SetTimer2();
-        //    }
-        //    else
-        //    {
-        //        _emailsToDisplay = _vm.ReadOutFromFiles();
-        //        if (_emailsToDisplay != null)
-        //        {
-        //            _allEmails = _emailsToDisplay.ToList<Email>();
-        //        }
-        //    }
-        //}
+
 
         //public void Timer_Tick2(object sender, EventArgs e)
         //{   

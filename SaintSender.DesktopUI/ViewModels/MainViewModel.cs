@@ -14,6 +14,7 @@ using System.Security.Policy;
 using SaintSender.Core.Services;
 using System.Linq;
 using System.Windows.Threading;
+using SaintSender.DesktopUI.Views;
 
 namespace SaintSender.DesktopUI.ViewModels
 {
@@ -30,11 +31,13 @@ namespace SaintSender.DesktopUI.ViewModels
         private DispatcherTimer _timer;
         private DispatcherTimer _timer2;
 
-
-
-       
-
-
+        public RelayCommand WriteEmailClick { get; set; }
+        public bool CanWriteEmail(object message)
+        {
+            return true;
+        }
+        
+ 
         public MainViewModel(string UserName, string Password)
         {
             _internetChecker = new InternetChecker();
@@ -43,12 +46,20 @@ namespace SaintSender.DesktopUI.ViewModels
             _client = _setupClient.Setup(UserName, Password);
             _user = new User(UserName, Password);
             InternetSetter();
+
+            WriteEmailClick = new RelayCommand(WriteMail, CanWriteEmail);
         }
 
         public ObservableCollection<Email> EmailsToDisplay
         {
             get { return _emailsToDisplay; }
             set { _emailsToDisplay = value; OnPropertyChanged(); }
+        }
+
+        private void WriteMail(object sender)
+        {
+            WriteMail wm = new WriteMail();
+            wm.Show();
         }
 
         //private void SetTimer()
