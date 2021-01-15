@@ -31,6 +31,12 @@ namespace SaintSender.DesktopUI.ViewModels
         private DispatcherTimer _timer;
         private DispatcherTimer _timer2;
 
+
+        public User UserInformation
+        {
+            get { return _user; }
+            set { _user = value; OnPropertyChanged(); }
+        }
         public RelayCommand WriteEmailClick { get; set; }
         public bool CanWriteEmail(object message)
         {
@@ -48,6 +54,7 @@ namespace SaintSender.DesktopUI.ViewModels
             InternetSetter();
 
             WriteEmailClick = new RelayCommand(WriteMail, CanWriteEmail);
+
         }
 
         public ObservableCollection<Email> EmailsToDisplay
@@ -58,7 +65,7 @@ namespace SaintSender.DesktopUI.ViewModels
 
         private void WriteMail(object sender)
         {
-            WriteMail wm = new WriteMail();
+            WriteMailView wm = new WriteMailView(UserInformation);
             wm.Show();
         }
 

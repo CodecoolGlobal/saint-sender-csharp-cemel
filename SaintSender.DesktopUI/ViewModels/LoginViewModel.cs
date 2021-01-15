@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using SaintSender.Core.Entities;
 using OpenPop.Pop3.Exceptions;
+using SaintSender.Core.Services;
 
 namespace SaintSender.DesktopUI.ViewModels
 {
@@ -36,7 +37,7 @@ namespace SaintSender.DesktopUI.ViewModels
         public String TextBoxEmailInput
         {
             get  { return _textBoxEmailInput; }
-            set { _textBoxEmailInput = value;OnPropertyChanged(); }   // not sure
+            set { _textBoxEmailInput = value; OnPropertyChanged(); }
         }
         
         public String TextBoxPasswordInput
@@ -66,10 +67,7 @@ namespace SaintSender.DesktopUI.ViewModels
             await Task.Delay(100);
             if (TryLogin(_textBoxEmailInput, _textBoxPasswordInput))
             {
-                foreach(Window item in Application.Current.Windows)
-                {
-                    if (item.DataContext == this) item.Close();
-                }
+                ClosingWindow.CloseWindow(this);
             }
         }
         private bool TryLogin(string userName, string password)
