@@ -15,12 +15,11 @@ namespace SaintSender.DesktopUI.ViewModels
 {
     public class LoginViewModel : ViewModelBase
     {
-        MainViewModel _mvm;
-        private User user;
         private string _textBoxEmailInput;
         private string _textBoxPasswordInput;
         private string _textInfo;
         private Brush _color;
+        MainWindow mainWindowView;
         public RelayCommand ButtonSignInClick { get; set; }
 
         public Brush TextColor
@@ -50,7 +49,7 @@ namespace SaintSender.DesktopUI.ViewModels
         public LoginViewModel() 
         {
             ButtonSignInClick = new RelayCommand(SignInClick, SignInCanUse);
-            _mvm = new MainViewModel();
+            
         }
 
         public bool SignInCanUse(object message)
@@ -69,8 +68,6 @@ namespace SaintSender.DesktopUI.ViewModels
             await Task.Delay(100);
             if (TryLogin(_textBoxEmailInput, _textBoxPasswordInput))
             {
-                MainWindow mw = new MainWindow();
-                mw.Show();
                 foreach(Window item in Application.Current.Windows)
                 {
                     if (item.DataContext == this) item.Close();
@@ -81,10 +78,8 @@ namespace SaintSender.DesktopUI.ViewModels
         {
             try
             {
-                _mvm.SetupClient(userName, password);
-                user = new User();
-                user.Email = userName;
-                user.Password = password;
+                mainWindowView = new MainWindow(userName, password);
+                mainWindowView.Show();
             }
             catch (InvalidLoginException e)
             {

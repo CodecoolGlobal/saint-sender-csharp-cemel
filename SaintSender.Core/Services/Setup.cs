@@ -15,13 +15,9 @@ using System.Threading.Tasks;
 
 namespace SaintSender.Core.Services
 {
-    public class Setup 
+    public class Setup
     {
-
         private static string ApplicationName = "Gmail API .NET Quickstart";
-
-
-
         public static UserCredential SetCredentials()
         {
             UserCredential credential;

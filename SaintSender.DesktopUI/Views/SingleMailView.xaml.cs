@@ -14,10 +14,6 @@ namespace SaintSender.DesktopUI.Views
             this.email = email;
             InitializeComponent();
             DataContext = email;
-
         }
-
-
-
     }
 }

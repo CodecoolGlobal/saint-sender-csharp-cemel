@@ -10,5 +10,12 @@ namespace SaintSender.Core.Entities
     {
         public string Email { get; set; }
         public string Password { get; set; }
+        
+        public User(string UserName, string password)
+        {
+            Email = UserName;
+            Password = password;
+        }
+
     }
 }

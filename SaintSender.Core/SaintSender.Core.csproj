@@ -71,8 +71,10 @@
     <Compile Include="Services\DataHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interfaces\IGreetService.cs" />
+    <Compile Include="Services\InternetChecker.cs" />
     <Compile Include="Services\Sender.cs" />
     <Compile Include="Services\Setup.cs" />
+    <Compile Include="Services\SetupClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="credentials.json">

@@ -23,7 +23,6 @@ namespace SaintSender.DesktopUI.Views
     public partial class LoginView: Window
     {
         LoginViewModel _lvm;
-
         public LoginView()
         {
             InitializeComponent();

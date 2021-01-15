@@ -12,7 +12,7 @@ namespace SaintSender.Core.Services
 {
     public class DataHandler
     {
-        
+
         public IList<string> getMessageBody()
         {
             var service = Setup.Init();
@@ -21,7 +21,7 @@ namespace SaintSender.Core.Services
             UsersResource.MessagesResource.ListRequest request1 = service.Users.Messages.List("me");
 
             //get our emails   
- 
+
             IList<Message> messages = request1.Execute().Messages;
             IList<String> snippets = new List<String>();
             foreach (var mail in messages)
@@ -34,9 +34,9 @@ namespace SaintSender.Core.Services
             return snippets;
         }
 
-        
+
     }
 
 }
-    
+
 

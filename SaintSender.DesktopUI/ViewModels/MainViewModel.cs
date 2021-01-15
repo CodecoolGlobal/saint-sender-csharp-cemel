@@ -11,91 +11,170 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 using System.Net;
 using System.Security.Policy;
+using SaintSender.Core.Services;
+using System.Linq;
+using System.Windows.Threading;
 
 namespace SaintSender.DesktopUI.ViewModels
 {
-    class MainViewModel
+    class MainViewModel : ViewModelBase
     {
         private Pop3Client _client;
+        private SetupClient _setupClient;
         private List<Message> _receivedEmails;
         public ObservableCollection<Email> _emailsToDisplay;
-        private static string _userName;
-        private static string _password;
-        public static bool InternetAvailable;
+        private InternetChecker _internetChecker;
+        public User _user;
+        public List<Email> _allEmails;
+        private bool ConnectionAvailable;
+        private DispatcherTimer _timer;
+        private DispatcherTimer _timer2;
 
 
-        public static void CheckForInterNetConnection()
+
+       
+
+
+        public MainViewModel(string UserName, string Password)
         {
-            try
+            _internetChecker = new InternetChecker();
+             ConnectionAvailable = _internetChecker.CheckForInterNetConnection();
+            _setupClient = new SetupClient();
+            _client = _setupClient.Setup(UserName, Password);
+            _user = new User(UserName, Password);
+            InternetSetter();
+        }
+
+        public ObservableCollection<Email> EmailsToDisplay
+        {
+            get { return _emailsToDisplay; }
+            set { _emailsToDisplay = value; OnPropertyChanged(); }
+        }
+
+        //private void SetTimer()
+        //{
+        //    _timer = new DispatcherTimer();
+        //    _timer.Interval = new TimeSpan(0, 0, 10);
+        //    _timer.Tick += Timer_Tick;
+        //    _timer.Start();
+        //}
+
+        //private void SetTimer2()
+        //{
+        //    _timer2 = new DispatcherTimer();
+        //    _timer2.Interval = new TimeSpan(0, 0, 1);
+        //    _timer2.Tick += Timer_Tick2;
+        //    _timer2.Start();
+        //}
+
+        //private void Timer_Tick(object sender, EventArgs e)
+        //{
+        //    if (string.IsNullOrWhiteSpace(txtSearch.Text))
+        //    {
+        //        RefreshEmailList();
+        //    }
+        //}
+
+        //public void Timer_Tick2(object sender, EventArgs e)
+        //{
+        //    if (ConnectionAvailable)
+        //    {
+
+        //        Internet_Available_Button.Background = Brushes.Green;
+        //    }
+        //    else
+        //    {
+        //        Internet_Available_Button.Background = Brushes.Red;
+        //    }
+
+
+        //    if (!boolChangedChecker(InternetChecker.InternetAvailable))
+        //    {
+        //        InternetSetter();
+        //    }
+        //}
+
+        //private async void RefreshEmailList()
+        //{
+        //    await Task.Run(() => _vm.GetEmails());
+
+        //    if (txtSearch.Text == null || txtSearch.Text == "")
+        //    {
+        //        _emailsToDisplay.Clear();
+        //        foreach (var email in _vm.BuildUpEmailsToDisplay())
+        //        {
+        //            _emailsToDisplay.Add(email);
+        //        }
+        //        _allEmails = _emailsToDisplay.ToList<Email>();
+        //    }
+        //}
+
+        public void InternetSetter()
+        {
+            if (ConnectionAvailable)
             {
-                using (var client = new WebClient())
+                GetEmails();
+                _emailsToDisplay = BuildUpEmailsToDisplay();
+                _allEmails = _emailsToDisplay.ToList<Email>();
+                //SetTimer();   
+                //SetTimer2();
+            }
+            else
+            {
+                _emailsToDisplay = ReadOutFromFiles();
+                if (_emailsToDisplay != null)
                 {
-                    using (client.OpenRead("http://google.com/generate_204"))
-                    {
-                        InternetAvailable = true;
-                    }
+                    _allEmails = _emailsToDisplay.ToList<Email>();
                 }
             }
-            catch
-            {
-                InternetAvailable = false;
-            }
         }
+        //private bool boolChangedChecker(bool value)
+        //{
+        //    bool newValue;
+
+        //    try
+        //    {
+
+        //        newValue = _internetChecker.CheckForInterNetConnection();
+        //    }
+        //    catch
+        //    {
+        //        newValue = false;
+        //    }
+
+
+
+        //    if (value != newValue)
+        //    {
+        //        if (ConnectionAvailable == false)
+        //        {
+        //            ConnectionAvailable = true;
+        //        }
+        //        else
+        //        {
+        //            ConnectionAvailable = false;
+        //        }
+
+        //        return false;
+        //    }
+        //    else
+        //    {
+        //        return true;
+        //    }
+
+        //}
+
+
 
         public void GetEmails()
         {
-
-            SetupClient();
             _receivedEmails = new List<Message>();
             int messageCount = _client.GetMessageCount();
-
-            for (int i = messageCount; i > 0; i--)
+            for(int i = messageCount; i > 0; i--)
             {
                 _receivedEmails.Add(_client.GetMessage(i));
             }
         }
-
-        public void SetupClient(string userName, string password)
-        {
-            _userName = userName;
-            _password = password;
-            SetupClient();
-        }
-
-        public void SetupClient()
-        {
-            _client = new Pop3Client();
-            _client.Connect("pop.gmail.com", 995, true);
-           _client.Authenticate(_userName, _password, AuthenticationMethod.UsernameAndPassword);
-        }
-
-        #region GetMessageBodies() code
-        //public List<string> GetMessageBodies()
-        //{
-        //    var messageBodies = new List<string>();
-
-        //    foreach (Message message in receivedEmails)
-        //    {
-        //        MessagePart plainText = message.FindFirstPlainTextVersion();
-
-        //        if (plainText != null)
-        //        {
-        //            messageBodies.Add(plainText.GetBodyAsText());
-        //        }
-        //        else
-        //        {
-        //            MessagePart html = message.FindFirstHtmlVersion();
-
-        //            if (html != null)
-        //            {
-        //                messageBodies.Add(html.GetBodyAsText());
-        //            }
-        //        }
-        //    }
-
-        //    return messageBodies;
-        //}
-        #endregion
 
         public ObservableCollection<Email> BuildUpEmailsToDisplay()
         {
@@ -103,7 +182,7 @@ namespace SaintSender.DesktopUI.ViewModels
             int counterID = 0;
             foreach (Message message in _receivedEmails)
             {
-                if (message.Headers.From.Address != _userName)
+                if (message.Headers.From.Address != _user.Email)
                 {
                     MessagePart messagePart = message.FindFirstPlainTextVersion();
                     string body;
