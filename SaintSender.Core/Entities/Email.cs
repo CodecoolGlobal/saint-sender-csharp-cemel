@@ -9,6 +9,7 @@ namespace SaintSender.Core.Entities
     [Serializable]
     public class Email
     {
+        public User UserAccount { get; set; }
         public string Sender { get; set; }
 
         public string Date { get; set; }

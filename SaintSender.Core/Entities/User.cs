@@ -17,5 +17,7 @@ namespace SaintSender.Core.Entities
             Password = password;
         }
 
+        public List<Email> AllEmails { get; set; }
+
     }
 }

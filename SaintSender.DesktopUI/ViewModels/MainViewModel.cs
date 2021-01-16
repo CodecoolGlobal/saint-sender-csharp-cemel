@@ -57,6 +57,11 @@ namespace SaintSender.DesktopUI.ViewModels
 
         }
 
+        private void Save_Email_To_Disk_Button_Click(object sender)
+        {
+            BackUp(_emailsToDisplay);
+        }
+
         public ObservableCollection<Email> EmailsToDisplay
         {
             get { return _emailsToDisplay; }

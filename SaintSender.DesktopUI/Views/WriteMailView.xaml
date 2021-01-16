@@ -19,7 +19,7 @@
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
         <Button x:Name="btnSend" Width="200" Margin="10" Command="{Binding ButtonSend}">Send</Button>
-        <Button x:Name="btnCancel" Width="200" Grid.Column="1" Command="{Binding ButtonCancelClick}" Margin="10">Cancel</Button>
+        <Button x:Name="btnCancel" Width="200" Grid.Column="1" Command="{Binding CloseWindow}" Margin="10">Cancel</Button>
         </Grid>
     </StackPanel>
 </Window>
