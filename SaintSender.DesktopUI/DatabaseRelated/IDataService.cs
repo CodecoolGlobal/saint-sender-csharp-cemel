@@ -9,7 +9,12 @@ namespace SaintSender.DesktopUI.DatabaseRelated
 {
     public interface IDataService
     {
-        User GetUser(User user);
-        List<Email> GetAllEmails();
+        //void AddUser();
+        //void AddEmails();
+        //User GetUser(User user);
+        //List<Email> GetAllEmails();
+        //void UpdateEmails();
+
+
     }
 }

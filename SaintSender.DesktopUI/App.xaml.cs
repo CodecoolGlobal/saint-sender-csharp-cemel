@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using SaintSender.DesktopUI.DatabaseRelated;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +15,14 @@ namespace SaintSender.DesktopUI
     /// </summary>
     public partial class App : Application
     {
+        private ServiceProvider serviceProvider;
+        public App()
+        {
+            ServiceCollection services = new ServiceCollection();
+            ConfigureServices(services);
+        }
+
+        public void ConfigureServices(IServiceCollection services)
+        => services.AddDbContext<AppDbContext>();
     }
 }

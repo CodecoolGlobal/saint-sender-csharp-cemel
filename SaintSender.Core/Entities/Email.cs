@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SaintSender.Core.Entities
 {
-    [Serializable]
+   
     public class Email
     {
         public User UserAccount { get; set; }
