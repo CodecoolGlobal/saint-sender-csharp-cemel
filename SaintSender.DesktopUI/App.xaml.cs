@@ -15,14 +15,14 @@ namespace SaintSender.DesktopUI
     /// </summary>
     public partial class App : Application
     {
-        private ServiceProvider serviceProvider;
+        //private ServiceProvider serviceProvider;
         public App()
         {
-            ServiceCollection services = new ServiceCollection();
-            ConfigureServices(services);
+            //ServiceCollection services = new ServiceCollection();
+            //ConfigureServices(services);
         }
 
-        public void ConfigureServices(IServiceCollection services)
-        => services.AddDbContext<AppDbContext>();
+        //public void ConfigureServices(IServiceCollection services)
+        //=> services.AddDbContext<AppDbContext>();
     }
 }

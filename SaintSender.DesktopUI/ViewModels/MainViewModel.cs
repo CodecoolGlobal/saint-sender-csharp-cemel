@@ -43,14 +43,16 @@ namespace SaintSender.DesktopUI.ViewModels
             return true;
         }
         
- 
+
         public MainViewModel(string UserName, string Password)
         {
             _internetChecker = new InternetChecker();
              ConnectionAvailable = _internetChecker.CheckForInterNetConnection();
             _setupClient = new SetupClient();
             _client = _setupClient.Setup(UserName, Password);
-            _user = new User(UserName, Password);
+            _user = new User();
+            _user.Email = UserName;
+            _user.Password = Password;
             InternetSetter();
 
             WriteEmailClick = new RelayCommand(WriteMail, CanWriteEmail);
