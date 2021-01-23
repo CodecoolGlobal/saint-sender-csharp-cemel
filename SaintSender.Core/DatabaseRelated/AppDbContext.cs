@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Configuration;
-
 using SaintSender.Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SaintSender.DesktopUI.DatabaseRelated
+namespace SaintSender.Core.DatabaseRelated
 {
     public class AppDbContext : DbContext  
     {
@@ -16,6 +15,7 @@ namespace SaintSender.DesktopUI.DatabaseRelated
         public AppDbContext(string schema) : base("Default")
         {
             this.schema = schema;
+            Console.WriteLine(schema);
         }
 
         public DbSet<User> Users { get; set; }
@@ -27,20 +27,6 @@ namespace SaintSender.DesktopUI.DatabaseRelated
             base.OnModelCreating(builder);
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    if (!optionsBuilder.IsConfigured)
-        //    {
-        //        optionsBuilder.UseNpgsql("Data Source = localhost; Initial Catalog = SaintSender; Integrated Security = True;User Id=postgres;Password=szopacs11") ;
-        //    }
-        //}
-
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    OnModelCreatingPartial(modelBuilder);
-        //}
-
-        //partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 
 
